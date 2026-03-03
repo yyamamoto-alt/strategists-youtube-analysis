@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>株式会社MyVision 競合分析レポート v2</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  /* ===== Base Reset & Typography ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: "Yu Mincho", "YuMincho", "游明朝", Georgia, "Times New Roman", serif;
+    color: #1a1a1a;
+    background: #fff;
+    line-height: 1.9;
+    padding: 0;
+    margin: 0;
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 60px 24px 100px;
+  }
+
+  /* ===== Headings ===== */
+  h1, h2, h3, h4, h5 {
+    font-family: "Yu Gothic", "YuGothic", "游ゴシック", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 600;
+    color: #111;
+    letter-spacing: 0.02em;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+    line-height: 1.4;
+    margin-bottom: 0.3em;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+    margin-top: 3.5em;
+    margin-bottom: 1em;
+    padding-bottom: 0.35em;
+    border-bottom: 2px solid #111;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    margin-top: 2.2em;
+    margin-bottom: 0.7em;
+  }
+
+  h4 {
+    font-size: 1rem;
+    margin-top: 1.6em;
+    margin-bottom: 0.5em;
+  }
+
+  /* ===== Title Block ===== */
+  .title-block {
+    margin-bottom: 3em;
+    padding-bottom: 2em;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .title-block .subtitle {
+    font-family: Georgia, "Yu Mincho", serif;
+    font-size: 0.95rem;
+    color: #555;
+    font-style: italic;
+    margin-bottom: 0.5em;
+    letter-spacing: 0.04em;
+  }
+
+  .title-block .date {
+    font-size: 0.85rem;
+    color: #777;
+    margin-top: 0.8em;
+  }
+
+  /* ===== Paragraphs & Text ===== */
+  p {
+    margin-bottom: 1.2em;
+    text-align: justify;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  .source-inline {
+    font-size: 0.82rem;
+    color: #666;
+  }
+
+  .label-fact {
+    font-family: "Yu Gothic", "YuGothic", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #fff;
+    background: #2c3e50;
+    padding: 1px 6px;
+    border-radius: 2px;
+    margin-right: 3px;
+    vertical-align: middle;
+    letter-spacing: 0.05em;
+  }
+
+  .label-estimate {
+    font-family: "Yu Gothic", "YuGothic", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #fff;
+    background: #7f8c8d;
+    padding: 1px 6px;
+    border-radius: 2px;
+    margin-right: 3px;
+    vertical-align: middle;
+    letter-spacing: 0.05em;
+  }
+
+  .label-speculation {
+    font-family: "Yu Gothic", "YuGothic", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #fff;
+    background: #bdc3c7;
+    padding: 1px 6px;
+    border-radius: 2px;
+    margin-right: 3px;
+    vertical-align: middle;
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== Tables ===== */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.2em 0 0.5em;
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+
+  thead th {
+    font-family: "Yu Gothic", "YuGothic", sans-serif;
+    font-weight: 600;
+    text-align: left;
+    padding: 8px 10px;
+    border-top: 2px solid #111;
+    border-bottom: 1.5px solid #111;
+    color: #111;
+    white-space: nowrap;
+  }
+
+  tbody td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #ddd;
+    vertical-align: top;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: 2px solid #111;
+  }
+
+  .table-caption {
+    font-size: 0.82rem;
+    color: #555;
+    margin-top: 0.3em;
+    margin-bottom: 2em;
+    font-style: italic;
+  }
+
+  /* numeric alignment */
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  /* ===== Charts ===== */
+  .chart-wrapper {
+    margin: 2em 0 1em;
+    padding: 0;
+  }
+
+  .chart-wrapper canvas {
+    max-height: 380px;
+  }
+
+  .chart-title {
+    font-family: "Yu Gothic", "YuGothic", sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin-bottom: 0.6em;
+    color: #222;
+  }
+
+  .chart-source {
+    font-size: 0.78rem;
+    color: #888;
+    margin-top: 0.3em;
+    margin-bottom: 2em;
+  }
+
+  /* ===== Lists ===== */
+  ul, ol {
+    margin: 0.8em 0 1.2em 1.5em;
+    line-height: 1.9;
+  }
+
+  li {
+    margin-bottom: 0.3em;
+  }
+
+  /* ===== Blockquote (for callouts) ===== */
+  blockquote {
+    margin: 1.5em 0;
+    padding: 0.8em 1.2em;
+    border-left: 3px solid #999;
+    background: #fafafa;
+    font-size: 0.9rem;
+    color: #444;
+  }
+
+  /* ===== Section divider ===== */
+  hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 3em 0;
+  }
+
+  /* ===== Executive Summary Box ===== */
+  .exec-summary {
+    margin: 2em 0;
+    padding: 1.5em 1.8em;
+    border-top: 2px solid #222;
+    border-bottom: 2px solid #222;
+    background: #fcfcfc;
+  }
+
+  .exec-summary p {
+    font-size: 0.92rem;
+    margin-bottom: 1em;
+  }
+
+  .exec-summary p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ===== Calculation Steps ===== */
+  .calc-step {
+    margin: 1em 0;
+    padding: 0.6em 1em;
+    background: #f8f8f8;
+    font-size: 0.88rem;
+    line-height: 1.8;
+    border-left: 2px solid #bbb;
+  }
+
+  .calc-step code {
+    font-family: "SF Mono", "Menlo", "Consolas", monospace;
+    font-size: 0.85rem;
+    background: #eee;
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  /* ===== Phase Box ===== */
+  .phase-box {
+    margin: 1.2em 0;
+    padding: 1em 1.2em;
+    background: #f9f9f9;
+    border-left: 3px solid #003A70;
+  }
+
+  .phase-box h4 {
+    margin-top: 0;
+    color: #003A70;
+  }
+
+  /* ===== Footer ===== */
+  .report-footer {
+    margin-top: 4em;
+    padding-top: 1.5em;
+    border-top: 1px solid #ccc;
+    font-size: 0.8rem;
+    color: #999;
+    line-height: 1.7;
+  }
+
+  /* ===== Print Styles ===== */
+  @media print {
+    body { font-size: 10pt; }
+    .container { max-width: 100%; padding: 0; }
+    h2 { page-break-after: avoid; }
+    table, .chart-wrapper { page-break-inside: avoid; }
+    .exec-summary { background: none; }
+    .calc-step { background: none; }
+    .phase-box { background: none; }
+    canvas { max-height: 300px !important; }
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 600px) {
+    .container { padding: 30px 16px 60px; }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.15rem; }
+    table { font-size: 0.8rem; }
+    thead th, tbody td { padding: 5px 6px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ===== TITLE ===== -->
+<div class="title-block">
+  <div class="subtitle">Competitive Intelligence &amp; Business Due Diligence</div>
+  <h1>株式会社MyVision 競合分析レポート</h1>
+  <div class="date">2026年2月20日 &mdash; 第2版（大幅改訂）</div>
+</div>
+
+<!-- ===== EXECUTIVE SUMMARY ===== -->
+<h2>エグゼクティブサマリー</h2>
+
+<div class="exec-summary">
+<p>株式会社MyVision（以下「MyVision」）は、2022年6月に設立されたコンサル転職支援特化型の人材紹介会社である。創業からわずか3年半で従業員303名<span class="source-inline">（出典：公式サイト my-vision.co.jp/about）</span>、累計支援実績8,000名以上に達しており、コンサル転職エージェント市場において最も急速に成長しているプレイヤーである。</p>
+
+<p>本レポートは、MyVisionの事業構造・成長要因・競争力を多角的に分析し、株式会社トップティアが運営するケース面接対策塾Strategistsの成長戦略に資するインサイトを抽出することを目的とする。分析にあたっては、戦略コンサルタント、PEファンド、VCアナリスト、人材紹介業経験者の各視点を統合している。第2版では、マーケティングチャネル分析の全面改訂、資金調達・財務データの精緻化、競合財務比較の充実、およびStrategists成長戦略セクションの全面書き直しを行った。</p>
+
+<p><strong>市場の魅力度。</strong> コンサル特化エージェント市場は推定130～480億円の規模を持ち<span class="source-inline">（推定：TAM/SAM分析に基づく3シナリオ推計）</span>、コンサルティング業界全体（2024年度2兆3,422億円<span class="source-inline">、出典：コダワリ・ビジネス・コンサルティング推計</span>、CAGR 13%）の拡大に連動して成長している。同業上場企業ムービン・ストラテジック・キャリアの営業利益率46.4%<span class="source-inline">（出典：IRBank E40925）</span>が示す通り、コンサル特化人材紹介は極めて高収益なビジネスモデルである。</p>
+
+<p><strong>MyVisionの競争力。</strong> 設立3年半で303名体制に到達した成長速度は業界随一であり、内製基幹システム「InVision」によるテック駆動モデルと、利用者の70%がコンサル未経験者という独自のポジショニングが差別化の核心にある。推定売上は20～40億円（全事業）<span class="source-inline">（推定：従業員303名規模、複数アプローチによるクロスチェック）</span>。累計調達7.7億円、評価額52.8億円で2027～2028年のIPOを計画している<span class="source-inline">（出典：バフェット・コード、HRMOS求人票、AMBI求人票）</span>。</p>
+
+<p><strong>マーケティング力。</strong> 年間推定6～10億円のマーケティング投資を通じて、「2軸5チャネル」モデル &mdash; インバウンド集客（SEO・リスティング広告/SNS広告・アフィリエイト）とアウトバウンド集客（スカウトサービス）、およびCVRブースター（1Day選考会・権威性シグナル）&mdash; で集客基盤を急速に構築している。特にスカウトサービス（ビズリーチ、リクルートダイレクトスカウト等）の大量運用が新たに確認され、従来の「3本柱」モデルから分析を全面改訂した。</p>
+
+<p><strong>Strategistsへの示唆。</strong> MyVisionとStrategistsの相互送客は既に実施済みであり、今後は規模拡大のフェーズに移行する。Strategistsは「AI × 超小規模正社員モデル」と「スクール × 人材紹介の複合ビジネスモデル」により、MyVisionとは対照的な高利益率型の成長を追求できる構造的優位性を持つ。代表の山本氏がClaude Codeを活用した自社システム開発に注力しており、InVision同等以上のシステムを人件費・開発コストほぼゼロで実現する可能性が急速に高まっている。</p>
+</div>
+
+<!-- ===== 1. COMPANY OVERVIEW ===== -->
+<h2>1. 企業概要</h2>
+
+<h3>会社の成り立ち</h3>
+
+<p>MyVisionは2022年6月20日、「株式会社HR Best Partners」として設立された<span class="source-inline">（出典：全国法人リスト houjin.jp/c/4010401167937）</span>。同年11月に現在の「株式会社MyVision」に商号を変更し、コンサルティング業界に特化した人材紹介サービスを開始した<span class="source-inline">（出典：PR TIMES 初回プレスリリース）</span>。本社は東京都千代田区内幸町の日比谷パークフロント17階に所在する。資本金は1億円（設立時500万円から増資済み。登記上1億500万円）、有料職業紹介事業許可番号は13-ユ-314719である<span class="source-inline">（出典：公式サイト会社概要）</span>。</p>
+
+<p>設立以来3回の本社移転（新橋→新宿→内幸町）を経ており<span class="source-inline">（出典：全国法人リスト 登記変更履歴）</span>、組織拡大の速度を物理的に反映している。日比谷パークフロントはAクラスオフィスビルであり、IPO準備企業としてのブランディング意図も窺える。</p>
+
+<table>
+  <thead>
+    <tr><th>項目</th><th>内容</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>商号</td><td>株式会社MyVision（旧：HR Best Partners）</td></tr>
+    <tr><td>法人番号</td><td>4010401167937</td></tr>
+    <tr><td>設立日</td><td>2022年6月20日</td></tr>
+    <tr><td>代表者</td><td>代表取締役社長 山口翔平 / 代表取締役CEO 岡﨑健斗</td></tr>
+    <tr><td>本社</td><td>東京都千代田区内幸町2-1-6 日比谷パークフロント 17F</td></tr>
+    <tr><td>資本金</td><td>1億円（設立時500万円→増資済み）</td></tr>
+    <tr><td>従業員数</td><td>303名（2026年2月、公式サイト）</td></tr>
+    <tr><td>許可番号</td><td>13-ユ-314719</td></tr>
+    <tr><td>事業内容</td><td>コンサルティング業界を中心としたハイクラス人材紹介サービス</td></tr>
+  </tbody>
+</table>
+<div class="table-caption">出典：公式サイト（my-vision.co.jp/about）、全国法人リスト、アラームボックス</div>
+
+<h3>経営陣</h3>
+
+<p>共同代表の<strong>山口翔平氏</strong>（代表取締役社長）は、早稲田大学を卒業後、JTB、オリックス生命保険を経て、コンサル特化型転職エージェントでキャリアアドバイザーとして5年間従事し、最高売上記録を樹立した人物である。FAS/M&amp;Aセクター、会計士/USCPA保有者の転職支援を専門とし、1,000名以上のキャリア相談実績を持つ<span class="source-inline">（出典：公式メンバーページ my-vision.co.jp/members/yamaguchi_shohei）</span>。</p>
+
+<p>もう一人の共同代表である<strong>岡﨑健斗氏</strong>（代表取締役CEO）は、麻布高校から東京大学に進み、ボストン コンサルティング グループ（BCG）で金融・通信テクノロジー・消費財業界の全社戦略/事業戦略立案、ビジネスDDに従事した。その後、モビリティ系スタートアップAzitで執行役員を務め、自らIT企業を起業してゼロイチで立ち上げた後、国内大手損害保険グループに売却している。連続起業家であり、累計数百名にケース面接対策を実施した実績を持つ<span class="source-inline">（出典：公式メンバーページ、LinkedIn）</span>。</p>
+
+<p>取締役の<strong>北野雄大氏</strong>は、名古屋大学からトヨタ自動車、デロイト トーマツ コンサルティング、エクサウィザーズを経て、コンサル特化型転職エージェントで年間支援人数の歴代最高記録を樹立した人物である。MyVisionでは採用とオペレーション全般を管掌する<span class="source-inline">（出典：公式メンバーページ my-vision.co.jp/members/kitano_yudai）</span>。</p>
+
+<p><strong>CTO岡部氏</strong>はシリアルアントレプレナーであり、医療職向けコミュニティアプリ「シゴトーク」を創業し、約4年後にメドレー社に売却した経歴を持つ。MyVisionの内製基幹システム「InVision」の開発を統括している<span class="source-inline">（出典：公式note note.com/myvision）</span>。</p>
+
+<p>この経営陣の構成は「コンサル業界の深い知見（岡﨑）」「人材紹介業界での圧倒的実績（山口・北野）」「テクノロジー（岡部）」という三位一体を形成しており、従来の人材紹介会社には見られない稀有な組み合わせである。</p>
+
+<h3>組織の成長</h3>
+
+<div class="chart-wrapper">
+  <div class="chart-title">図表1：MyVision 従業員数推移</div>
+  <canvas id="chartEmployees"></canvas>
+  <div class="chart-source">出典：公式サイト、ジョブミルインタビュー（jobmiru.cloud）、Geekly、各種求人サイト（doda等）</div>
+</div>
+
+<p>従業員数の推移は、設立時の数名から、約70名（2024年4月<span class="source-inline">、出典：ジョブミルインタビュー「設立1年半で70名」</span>）、約120名（2024年10月<span class="source-inline">、出典：各種メディア</span>）、約200名（2025年<span class="source-inline">、出典：Geekly企業データ</span>）、そして303名（2026年2月<span class="source-inline">、出典：公式サイト</span>）と、年間約100名のペースで増員を続けている。</p>
+
+<p>現在は6つの事業部体制を敷いている。祖業かつ最大規模の「マイビジョン事業部」がコンサル転職支援を担い、2024年以降に「ビルドジョブ」（建設業界、2024年3月）、「ツインプロ」（経理・財務・士業、2024年5月）、「テックゴー」（ITエンジニア）、「メーカーズジョブ」（メーカー企業）、「ベストウィン」（営業職）を相次いで立ち上げた<span class="source-inline">（出典：HRMOS採用ページ、PR TIMESプレスリリース）</span>。「ホワイトカラー &times; 高年収帯」を軸に、コンサル転職で確立した仕組みを横展開する戦略である。</p>
+
+<p>組織文化としては、女性比率50%、平均年齢31歳、人材紹介未経験入社比率80%以上という特徴がある<span class="source-inline">（出典：HRMOS採用ページ、Wantedly）</span>。専任マネジャー制（プレイングマネジャーを置かない）とデイリー1on1により、未経験者の育成を仕組み化している。</p>
+
+<hr>
+
+<!-- ===== 2. BUSINESS MODEL ===== -->
+<h2>2. 事業モデル</h2>
+
+<h3>収益構造</h3>
+
+<p><span class="label-fact">ファクト</span> MyVisionの収益モデルは成功報酬型人材紹介である。求職者からの利用料は無料で、採用企業（主にコンサルティングファーム）から想定年収の30～35%を成功報酬として受領する<span class="source-inline">（出典：公式サイト、業界標準の手数料率は厚生労働省「職業紹介事業報告」に基づく）</span>。<span class="label-estimate">推定</span> コンサルタントの加重平均年収を約850万円（アナリスト～パートナーの構成比を考慮）、手数料率を35%とすると、1件あたりの平均紹介手数料は<strong>約300万円</strong>となる。これは一般的な人材紹介の決定単価（100～150万円）の約2倍にあたり、コンサル特化エージェントの高収益性の源泉である。</p>
+
+<p><span class="label-fact">ファクト</span> 紹介先はコンサルティングファーム200社以上で、BCG、マッキンゼー、ベイン等の戦略ファームから、アクセンチュア、デロイト、PwC等の総合ファーム、さらにBayCurrent、アビーム等のITコンサルまで幅広くカバーしている<span class="source-inline">（出典：公式サイト）</span>。</p>
+
+<p>利用者の70%がコンサル業界未経験者であるという点は、競合との明確な差別化ポイントである<span class="source-inline">（出典：公式サイト）</span>。ムービンやコンコードがコンサル経験者やハイキャリア層を主なターゲットとするのに対し、MyVisionは市場の裾野拡大を取り込むポジションを確立している。</p>
+
+<h3>差別化の核心：InVision</h3>
+
+<p>MyVisionの最大の競争優位は、CRM・SFA・ERP・MAを全て内製した基幹システム「InVision」にある<span class="source-inline">（出典：公式note、HRMOS採用ページ）</span>。Salesforce等の外部SaaSに依存せず、人材紹介の全バリューチェーンを自社業務に完全最適化している。</p>
+
+<p>この設計思想は「テクノロジーと仕組み化を駆使し、CAが求職者に向き合う時間を最大化する」ことにある。属人的な人材紹介業務をシステマティックに標準化することで、未経験者の早期戦力化と、組織全体の品質の再現性を実現している。これはSHIFTが品質保証業界で、ベイカレントがコンサル業界で実証した「テクノロジー &times; 労働集約型事業」モデルの人材紹介版といえる。</p>
+
+<h3>顧客満足度</h3>
+
+<p><span class="label-fact">ファクト</span> Google口コミは4.8（600件以上）で、人材紹介業界では異例の高評価を得ている<span class="source-inline">（出典：Google Maps口コミ）</span>。年収アップ率95%、平均年収アップ額約122万円という実績を公表している<span class="source-inline">（出典：公式サイト ヒーローセクション）</span>。一方で口コミには「深夜2時にLINE返信がある」「やや強引に感じた」といった声もあり<span class="source-inline">（出典：OpenWork、エン カイシャの評判）</span>、成果至上主義のベンチャー色が窺える。</p>
+
+<hr>
+
+<!-- ===== 3. FINANCIAL ESTIMATES ===== -->
+<h2>3. 財務推定</h2>
+
+<p>MyVisionは非上場のため正確な財務データは公開されていない。以下、複数のアプローチから売上規模を推定する。全ての推定値に計算過程を明示する。</p>
+
+<h3>推定アプローチ1：CA数ベースの売上推定</h3>
+
+<div class="calc-step">
+<strong>ステップ1：CA数の特定</strong><br>
+<span class="label-fact">ファクト</span> MyVisionのコンサルタント数は約93名<span class="source-inline">（出典：ミドルの転職 掲載情報、2024年時点）</span>。総従業員303名のうち、マーケティング・エンジニア・コーポレート部門を除いた人数。<br><br>
+<strong>ステップ2：1人あたり年間売上の仮定</strong><br>
+<span class="label-fact">ファクト</span> ムービンのCA1人あたり年間売上は約4,470万円（= 売上38.0億円 &divide; CA 85名）<span class="source-inline">（出典：IRBank E40925、有価証券届出書）</span>。これは業界上限水準。<br>
+<span class="label-estimate">推定</span> 一般的な人材紹介のCA1人あたり年間売上は約2,500万円が目安。MyVisionは設立3年半で人材紹介未経験入社80%超のため、ムービン水準（4,470万円）には達していないと仮定。ムービン実績の33～78%水準（1,500～3,500万円）のレンジで推定。<br><br>
+<strong>ステップ3：売上推定</strong><br>
+<code>保守的：93名 &times; 1,500万円/人 = 14.0億円</code><br>
+<code>中間値：93名 &times; 2,500万円/人 = 23.3億円</code><br>
+<code>楽観的：93名 &times; 3,500万円/人 = 32.6億円</code>
+</div>
+
+<h3>推定アプローチ2：従業員数ベースの売上推定</h3>
+
+<div class="calc-step">
+<span class="label-estimate">推定</span> 従業員303名。人材紹介業の1人あたり売上は概ね700～1,300万円が相場。<br>
+<code>保守的：303名 &times; 700万円/人 = 21.2億円</code><br>
+<code>楽観的：303名 &times; 1,300万円/人 = 39.4億円</code><br>
+中間推定値として<strong>20～40億円</strong>が全事業ベースの売上レンジ。
+</div>
+
+<h3>推定アプローチ3：評価額からの逆算</h3>
+
+<div class="calc-step">
+<span class="label-fact">ファクト</span> 累計調達額は約7.7億円、直近の評価額は約52.8億円（潜在株含む）<span class="source-inline">（出典：バフェット・コード buffett-code.com/company/6azh7xg8y9）</span>。<br><br>
+<span class="label-estimate">推定</span> 人材業界のPSR（株価売上高倍率）は1～2倍が標準的。<br>
+<code>PSR 1倍の場合：52.8億円 &divide; 1 = 52.8億円（6事業部全体）</code><br>
+<code>PSR 2倍の場合：52.8億円 &divide; 2 = 26.4億円（6事業部全体）</code><br>
+全事業ベースで<strong>26～53億円</strong>のレンジ。
+</div>
+
+<h3>資金調達と財務実態</h3>
+
+<p><span class="label-fact">ファクト</span> 累計調達額は約7.7億円、直近の評価額は約52.8億円（潜在株含む）<span class="source-inline">（出典：バフェット・コード、INITIAL initial.inc）</span>。資本金は設立時の500万円から現在1億円（登記上1億500万円）に増資されている<span class="source-inline">（出典：公式サイト会社概要、全国法人リスト）</span>。</p>
+
+<p><span class="label-fact">ファクト</span> 第1期（2023年5月期）決算公告によると、純利益280万7千円、総資産7,099万円であった<span class="source-inline">（出典：決算公告）</span>。設立初年度としては「黒字はギリギリ」の水準であり、成長投資を優先して利益を意図的に抑えている構造が読み取れる。</p>
+
+<p><span class="label-estimate">推定</span> デット（借入）とエクイティ（株式）の内訳は非公開である。PR TIMESにプレスリリースが確認されないことから、大型VCラウンドは実施されていない可能性がある。人材紹介業は早期にキャッシュフロー黒字化しやすいビジネスであり、デットファイナンスの比率が相応に高い可能性も考えられる。テクノロジー投資（エンジニア採用・InVision開発）とマーケティング投資への資金需要が調達の主因と推定される。</p>
+
+<p><span class="label-fact">ファクト</span> IPO目標は2027～2028年<span class="source-inline">（出典：HRMOS求人票では「2028年」、AMBI求人票では「2027年」と記載あり。出典により異なる）</span>。</p>
+
+<h3>推定収益性と競合財務比較</h3>
+
+<table>
+  <thead>
+    <tr><th>指標</th><th>ムービン（421A）</th><th>アクシス（9344）</th><th>MyVision（推定）</th><th>信頼度</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>売上高</td><td class="num">38.0億円</td><td class="num">52.7億円</td><td class="num">20～40億円</td><td><span class="label-estimate">推定</span></td></tr>
+    <tr><td>営業利益率</td><td class="num">46.4%</td><td class="num">4.0%</td><td class="num">ほぼ0%</td><td><span class="label-estimate">推定</span></td></tr>
+    <tr><td>従業員数</td><td class="num">109名</td><td class="num">138名</td><td class="num">303名</td><td><span class="label-fact">ファクト</span></td></tr>
+    <tr><td>マーケティング費用</td><td class="num">最小限</td><td class="num">非公開</td><td class="num">6～10億円/年</td><td><span class="label-estimate">推定</span></td></tr>
+    <tr><td>CA1人あたり売上</td><td class="num">4,470万円</td><td class="num">3,820万円</td><td class="num">2,000～3,000万円</td><td><span class="label-estimate">推定</span></td></tr>
+    <tr><td>自社DB比率</td><td class="num">82%</td><td>非公開</td><td>低（有料集客中心）</td><td><span class="label-estimate">推定</span></td></tr>
+    <tr><td>IPO実績/計画</td><td>2025年10月 東証グロース上場</td><td>2023年3月 東証グロース上場</td><td>2027～2028年 目標</td><td><span class="label-fact">ファクト</span></td></tr>
+  </tbody>
+</table>
+<div class="table-caption">ムービン出典：IRBank E40925。アクシス出典：IRBank E38452。MyVisionは公開情報に基づく推定。</div>
+
+<p><span class="label-estimate">推定</span> 第1期の純利益280万円という水準、303名の人件費（推定年間人件費40～50億円）、年間6～10億円のマーケティング投資を考慮すると、MyVisionの営業利益率はほぼ0%と推定される。これはムービンの46.4%とは対照的であり、意図的に利益を抑えて成長投資に全振りしている「ブリッツスケーリング」型の経営判断と解釈できる。従来の推定（10～20%）は過大評価であった。</p>
+
+<h4>ムービン（421A）詳細</h4>
+
+<p><span class="label-fact">ファクト</span> 2025年12月期予想：売上38億円、営業利益17.6億円（利益率46%）<span class="source-inline">（出典：IRBank E40925）</span>。2025年10月に東証グロースに上場した。低コスト集客モデル（自社DB 82%）により、業界随一の利益率を実現。創業30年にわたるコンテンツ投資（23,500ページ超）が参入障壁として機能している。</p>
+
+<h4>アクシス（9344）詳細</h4>
+
+<p><span class="label-fact">ファクト</span> 2025年6月期予想：経常利益1.7億円（前期比▲79.6%）<span class="source-inline">（出典：IRBank E38452、株探）</span>。スキルシェア事業の拡大に伴う先行投資で大幅減益。PwCコンサルティングへの売上依存度29%という顧客集中リスクも課題。</p>
+
+<h4>MyVision vs ムービンの成長速度比較</h4>
+
+<p><span class="label-estimate">推定</span> ムービン30年 vs MyVision3年で同規模の従業員数に迫る成長速度は驚異的である。ただし利益率はムービン46%に対しMyVisionはほぼ0%であり、「速さ」と「収益性」のトレードオフが鮮明である。MyVisionのIPOストーリーは、この成長投資が将来の利益率改善に結実するかどうかにかかっている。</p>
+
+<hr>
+
+<!-- ===== 4. MARKET ===== -->
+<h2>4. 市場環境</h2>
+
+<h3>コンサルティング業界の全体像</h3>
+
+<p><span class="label-fact">ファクト</span> 日本のコンサルティング業界は2024年度に市場規模2兆3,422億円に達し<span class="source-inline">（出典：コダワリ・ビジネス・コンサルティング推計、2024年版）</span>、2017年からのCAGRは13.0%で拡大を続けている。2030年には中間シナリオで3.2兆円への成長が予測されている。</p>
+
+<table>
+  <thead>
+    <tr><th>年度</th><th>市場規模</th><th>出典</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>2017年度</td><td class="num">約1兆円</td><td>コダワリ推計</td></tr>
+    <tr><td>2024年度</td><td class="num">2兆3,422億円</td><td>コダワリ推計</td></tr>
+    <tr><td>2030年度（ネガティブ）</td><td class="num">2兆9,900億円</td><td>3シナリオ推計</td></tr>
+    <tr><td>2030年度（スタンダード）</td><td class="num">3兆2,000億円</td><td>3シナリオ推計</td></tr>
+    <tr><td>2030年度（ポジティブ）</td><td class="num">4兆1,700億円</td><td>3シナリオ推計</td></tr>
+  </tbody>
+</table>
+<div class="table-caption">出典：コダワリ・ビジネス・コンサルティング「コンサル業界の市場規模と将来予測」</div>
+
+<p><span class="label-fact">ファクト</span> 業界全体の就業者数は推定11～12万人<span class="source-inline">（推定：主要ファーム公表値のボトムアップ集計）</span>。主要ファームの国内従業員数はアクセンチュアが約27,000名、野村総合研究所が約17,000名、アビームコンサルティングが8,816名、ベイカレントが5,904名である<span class="source-inline">（出典：各社公式発表値、ダイヤモンド編集部「コンサルファーム国内人員数調査」2024年12月版）</span>。業界の年間離職率は約20%（一般企業の13.9%を大幅に上回る）で、大手ファームの在籍者の80%以上が中途入社である<span class="source-inline">（出典：AXIS Insights insight.axc.ne.jp、KOTORA JOURNAL）</span>。</p>
+
+<h3>TAM / SAM / SOM推定</h3>
+
+<p>以下にコンサル転職市場の規模を3段階で推定する。全ての前提条件と計算過程を明示する。</p>
+
+<h4>前提条件</h4>
+
+<table>
+  <thead>
+    <tr><th>項目</th><th>保守的</th><th>中間</th><th>楽観的</th><th>根拠</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>コンサル業界就業者数</td><td class="num">100,000名</td><td class="num">115,000名</td><td class="num">130,000名</td><td>主要ファーム公表値合計から推定</td></tr>
+    <tr><td>年間離職率</td><td class="num">15%</td><td class="num">20%</td><td class="num">25%</td><td>一般企業13.9%超、コンサルは約20%</td></tr>
+    <tr><td>年間中途入職者数</td><td class="num">20,000名</td><td class="num">31,000名</td><td class="num">44,500名</td><td>離職補充 + 業界純増</td></tr>
+    <tr><td>加重平均年収</td><td class="num" colspan="3">約850万円</td><td>アナリスト～パートナーの構成比加重</td></tr>
+    <tr><td>手数料率</td><td class="num" colspan="3">35%</td><td>業界相場30～35%の上位</td></tr>
+    <tr><td>1件あたり平均手数料</td><td class="num" colspan="3">約300万円</td><td>850万円 &times; 35%</td></tr>
+  </tbody>
+</table>
+<div class="table-caption">前提条件の根拠：厚生労働省「職業紹介事業報告」、各社IR資料、AXIS Insights、KOTORA JOURNAL</div>
+
+<h4>市場規模推計</h4>
+
+<table>
+  <thead>
+    <tr><th>指標</th><th>保守的</th><th>中間</th><th>楽観的</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>TAM</strong>（コンサル転職市場全体）</td><td class="num">825億円</td><td class="num">1,349億円</td><td class="num">2,018億円</td></tr>
+    <tr><td><strong>SAM</strong>（エージェント経由）</td><td class="num">330億円</td><td class="num">675億円</td><td class="num">1,211億円</td></tr>
+    <tr><td>コンサル特化エージェント市場</td><td class="num">130億円</td><td class="num">235億円</td><td class="num">480億円</td></tr>
+    <tr><td><strong>SOM</strong>（MyVision獲得可能）</td><td class="num">6.5億円</td><td class="num">23.5億円</td><td class="num">72億円</td></tr>
+  </tbody>
+</table>
+<div class="table-caption">推定：複数のボトムアップ・トップダウンアプローチによる3シナリオ推計</div>
+
+<div class="calc-step">
+<strong>中間シナリオの計算過程</strong><br>
+<code>TAM = 入職市場930億円（31,000名 &times; 300万円） + ポストコンサル市場419億円（14,950名 &times; 280万円） = 1,349億円</code><br>
+<code>SAM = TAM 1,349億円 &times; エージェント経由比率50% = 675億円</code><br>
+<code>特化市場 = SAM 675億円 &times; 特化エージェントシェア35% = 235億円</code><br>
+<code>SOM = 特化市場 235億円 &times; MyVision獲得可能シェア10% = 23.5億円</code>
+</div>
+
+<div class="chart-wrapper">
+  <div class="chart-title">図表2：TAM / SAM / SOM（中間シナリオ）</div>
+  <canvas id="chartTAM"></canvas>
+  <div class="chart-source">推定：ボトムアップ推計に基づく。前提条件は上表参照。</div>
+</div>
+
+<h3>成長ドライバー</h3>
+
+<p>市場の成長を牽引する構造的要因は4つある。第一にDX・AI需要によるコンサル業界自体の拡大（2024年度2.3兆円→2030年度3.2兆円）。第二に大手ファームの中途採用への依存深化（在籍者の80%超が中途入社）。第三にコンサル業界の高い人材流動性（離職率20%）。第四に未経験からのコンサル転職志望者の増加（MyVision利用者の70%が未経験者）である。</p>
+
+<hr>
+
+<!-- ===== 5. COMPETITORS ===== -->
+<h2>5. 競合比較</h2>
+
+<h3>ムービン・ストラテジック・キャリア（証券コード421A）</h3>
+
+<p><span class="label-fact">ファクト</span> コンサル転職エージェントの草分けであり、MyVisionにとって最も直接的な競合かつベンチマーク。1996年創業、2025年10月に東証グロースに上場した<span class="source-inline">（出典：IRBank E40925、庶民のIPO）</span>。代表の神川貴実彦氏はBCG出身。</p>
+
+<p><span class="label-fact">ファクト</span> 2025年12月期の売上高は38.0億円（前年比+59.1%）、営業利益は17.6億円で営業利益率は46.4%に達する。2026年12月期は売上50.0億円、営業利益22.9億円（利益率45.8%）を予想している<span class="source-inline">（出典：IRBank E40925）</span>。5年間の売上CAGRは約22%である。</p>
+
+<div class="chart-wrapper">
+  <div class="chart-title">図表3：ムービン・ストラテジック・キャリア 業績推移</div>
+  <canvas id="chartMovin"></canvas>
+  <div class="chart-source">出典：IRBank E40925（irbank.net/E40925/results）。2026/12期は会社予想。</div>
+</div>
+
+<p>ムービンの驚異的な収益性の源泉は、28年にわたるコンテンツ投資で構築された自社メディア（23,500ページ超）による低コスト集客モデルにある。広告費をほぼかけずに年間5,800名の新規登録を獲得し、売上の82%を自社データベース経由で創出している<span class="source-inline">（出典：有価証券届出書）</span>。売上原価率はわずか4～5%。CA1人あたりの年間売上は約4,470万円（= 38.0億円 &divide; 85名）で、業界平均の約1.8倍に達する<span class="source-inline">（出典：IRBank E40925からの算出）</span>。</p>
+
+<h3>アクシスコンサルティング（証券コード9344）</h3>
+
+<p><span class="label-fact">ファクト</span> 2002年設立、2023年3月に東証グロースに上場。売上規模ではコンサル特化エージェントとして最大級だが、事業構造はMyVisionやムービンとは大きく異なる<span class="source-inline">（出典：IRBank E38452）</span>。</p>
+
+<p><span class="label-fact">ファクト</span> 2025年6月期予想：経常利益1.7億円（前期比▲79.6%）<span class="source-inline">（出典：IRBank E38452、株探 kabutan.jp）</span>。スキルシェア事業の拡大に伴う先行投資で大幅減益。PwCコンサルティングへの売上依存度29%という顧客集中リスクも課題。</p>
+
+<div class="chart-wrapper">
+  <div class="chart-title">図表4：アクシスコンサルティング 業績推移</div>
+  <canvas id="chartAxis"></canvas>
+  <div class="chart-source">出典：IRBank E38452（irbank.net/E38452/results）。2026/6期は会社予想。</div>
+</div>
+
+<h3>その他の主要プレイヤー</h3>
+
+<p><strong>コンコードエグゼクティブグループ</strong>は2008年設立の非上場企業で、従業員約50名<span class="source-inline">（出典：公式サイト concord-group.co.jp）</span>。ポストコンサル転職に強みを持つ。<span class="label-estimate">推定</span> 推定売上は10～15億円。</p>
+
+<p><strong>コトラ（KOTORA）</strong>は2002年設立、コンサルタント48名を含む従業員78名の非上場企業<span class="source-inline">（出典：kotora.co.jp 2023年12月現在）</span>。金融とコンサルの領域横断的な強みを持つ。<span class="label-estimate">推定</span> 推定売上は15～25億円。</p>
+
+<p><strong>JACリクルートメント（証券コード2124）</strong>は総合ハイクラスエージェントの大手で、2025年12月期の売上高は460.9億円、営業利益率25.3%<span class="source-inline">（出典：みんかぶ minkabu.jp/stock/2124/settlement）</span>。コンサル転職は事業の一部だが推定20～40億円のプレゼンスを持つ。</p>
+
+<h3>競合比較チャート</h3>
+
+<div class="chart-wrapper">
+  <div class="chart-title">図表5：競合売上高・営業利益率比較</div>
+  <canvas id="chartCompetitors"></canvas>
+  <div class="chart-source">ムービン出典：IRBank E40925。アクシス出典：IRBank E38452。JAC出典：みんかぶ。MyVisionは推定値（中間値30億円）。</div>
+</div>
+
+<table>
+  <thead>
+    <tr><th>指標</th><th>ムービン（421A）</th><th>アクシス（9344）</th><th>JAC（2124）</th><th>MyVision（推定）</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>創業</td><td>1996年</td><td>2002年</td><td>1988年</td><td>2022年</td></tr>
+    <tr><td>売上高</td><td class="num">38.0億円</td><td class="num">52.7億円</td><td class="num">460.9億円</td><td class="num">20～40億円</td></tr>
+    <tr><td>営業利益率</td><td class="num">46.4%</td><td class="num">4.0%</td><td class="num">25.3%</td><td class="num">ほぼ0%</td></tr>
+    <tr><td>従業員数</td><td class="num">109名</td><td class="num">138名</td><td class="num">2,378名</td><td class="num">303名</td></tr>
+    <tr><td>1人あたり売上</td><td class="num">3,490万円</td><td class="num">3,820万円</td><td class="num">1,938万円</td><td class="num">2,000～3,000万円</td></tr>
+    <tr><td>自社DB比率</td><td class="num">82%</td><td>非公開</td><td>N/A</td><td>低（有料集客中心）</td></tr>
+  </tbody>
+</table>
+<div class="table-caption">ムービン・アクシス・JAC：各社IR資料（IRBank、みんかぶ）。MyVisionは公開情報に基づく推定。</div>
+
+<hr>
+
+<!-- ===== 6. MARKETING ===== -->
+<h2>6. デジタルマーケティング分析</h2>
+
+<h3>投資規模の再評価</h3>
+
+<p><span class="label-fact">ファクト</span> HRMOS求人票には「月間数千万単位の予算」（マーケティング全体）と明記されている<span class="source-inline">（出典：HRMOS hrmos.co/pages/my-vision/jobs/6ab）</span>。また、AMBI求人票には「年間広告予算10億円」と記載がある<span class="source-inline">（出典：AMBI求人掲載）</span>。</p>
+
+<p><span class="label-estimate">推定</span> 従来の推定（リスティング広告予算3.6～6億円）は過小評価であった。AMBI求人票の「年間広告予算10億円」という記載と、HRMOS求人票の「月間数千万単位」を考慮すると、マーケティング全体予算は年間<strong>6～10億円</strong>と再推定される。これは「リスティング広告予算」のみではなく、デジタル広告費、アフィリエイト費用、スカウトサービス費用、Indeed広告費、マーケティング人件費を含むマーケティング全体予算である。2028年IPOに向けてテレビCMも計画中である<span class="source-inline">（出典：HRMOS求人票 hrmos.co/pages/my-vision/jobs/6ab）</span>。</p>
+
+<h3>集客モデル：「2軸5チャネル」モデル（第2版改訂）</h3>
+
+<p>第1版では「3本柱（SEO/リスティング広告/アフィリエイト）」として分析していたが、追加調査により、MyVisionの集客モデルはより複合的な「2軸5チャネル + CVRブースター」モデルであることが判明した。</p>
+
+<h4>軸1：インバウンド集客（Webサイト経由）</h4>
+
+<p><strong>(1) SEO（コンテンツマーケティング）... 推定25～30%</strong></p>
+
+<p>MyVisionのSEOは「二層ファネル構造」を採用している。第1層として「年収○○万 手取り」「○○歳 平均年収」等の大量トラフィック記事を約540記事<span class="source-inline">（出典：my-vision.co.jp/articles のページネーション確認）</span>展開し、月間推定30～80万PVのオーガニックトラフィックを獲得。第2層としてファーム別・ペルソナ別転職ガイドでCV直結させる構成である。</p>
+
+<p><strong>(2) リスティング広告 + SNS広告 ... 推定20～25%</strong></p>
+
+<p><span class="label-fact">ファクト</span> Google、Yahoo!、Meta（Facebook/Instagram）、Indeed、YouTubeの多チャネルで積極出稿している<span class="source-inline">（出典：HRMOS求人票に出稿プラットフォームを明記）</span>。Indeed広告がMeta広告と並ぶ主要チャネルであることが求人情報から確認された。</p>
+
+<p><strong>(3) アフィリエイト ... 推定10～15%</strong></p>
+
+<p><span class="label-fact">ファクト</span> <strong>20以上</strong>のアフィリエイトメディアにMyVisionが掲載されていることを確認（第1版の「10以上」から上方修正）<span class="source-inline">（出典：consulfree.com、talentsquare.co.jp、転職アンテナ等の各メディア）</span>。もしもアフィリエイトの利用が確認されており<span class="source-inline">（出典：もしもアフィリエイト掲載確認）</span>、A8.net、アクセストレード等の主要ASPも併用していると推定される。</p>
+
+<p><span class="label-estimate">推定</span> MyVisionのアフィリエイト報酬は<strong>申込4万円/件・着座（面談実施）8万円/件</strong>と推定され、業界一般水準（5,000～10,000円/件）の4～8倍の高単価に設定されている。この高報酬がメディア側のMyVision推薦インセンティブを強力に駆動しており、ランキング記事での1位掲載を支えている構造である。年間アフィリエイト費用は推定<strong>2.4～4.8億円</strong>に達する可能性がある。</p>
+
+<h4>軸2：アウトバウンド集客（能動的アプローチ）</h4>
+
+<p><strong>(4) スカウトサービス ... 推定15～25%</strong></p>
+
+<p>第2版で新たに加えた重要チャネルである。</p>
+
+<p><span class="label-fact">ファクト</span> X（旧Twitter）上で「リクルートダイレクトスカウトがMyVisionのメッセージで埋め尽くされてて笑った」という口コミが確認されている<span class="source-inline">（出典：X投稿）</span>。また、HRMOS求人にスカウトマーケター専任ポジションの募集がある<span class="source-inline">（出典：HRMOS採用ページ）</span>。</p>
+
+<p><span class="label-estimate">推定</span> ビズリーチ、リクルートダイレクトスカウト等のスカウトサービスを大量運用しており、これが従来の分析で見落とされていた重要な集客チャネルである。スカウトマーケターを専任で配置していることから、組織的・大規模にスカウト送信を行っていると推定される。</p>
+
+<h4>CVRブースター（全チャネル横断）</h4>
+
+<p><strong>(5) 1Day選考会・セミナー ... 直接集客3～5% + CVR向上効果</strong></p>
+
+<p><span class="label-fact">ファクト</span> 1Day選考会がデロイト・EYなどBIG4と共同で定期開催されている<span class="source-inline">（出典：公式サイト イベントページ）</span>。BIG4との共同開催イベントは、転職潜在層に対する登録の決定的な動機づけとして機能しており、単なる集客チャネルを超えたCVRブースターとしての役割を担っている。</p>
+
+<p><strong>(6) Google口コミ4.8・権威性シグナル ... CVR向上効果</strong></p>
+
+<p><span class="label-fact">ファクト</span> Google口コミ4.8（600件以上）<span class="source-inline">（出典：Google Maps）</span>は、全チャネルからの流入に対するコンバージョン率を底上げする権威性シグナルとして機能している。</p>
+
+<h3>集客チャネル構成比（改訂版）</h3>
+
+<div class="chart-wrapper">
+  <div class="chart-title">図表6：MyVision 集客チャネル推定構成比（2軸5チャネルモデル）</div>
+  <canvas id="chartChannels"></canvas>
+  <div class="chart-source">推定：SEO記事数、広告予算規模、アフィリエイトメディア掲載数、X上の口コミ、HRMOS求人情報等に基づく改訂推定。</div>
+</div>
+
+<table>
+  <thead>
+    <tr><th>軸</th><th>チャネル</th><th>推定構成比</th><th>根拠</th></tr>
+  </thead>
+  <tbody>
+    <tr><td rowspan="3">軸1：インバウンド</td><td>(1) SEO（コンテンツマーケティング）</td><td class="num">25～30%</td><td>540記事、年収系の大量トラフィック</td></tr>
+    <tr><td>(2) リスティング広告 + SNS広告</td><td class="num">20～25%</td><td>HRMOS「月間数千万」、Indeed広告含む</td></tr>
+    <tr><td>(3) アフィリエイト</td><td class="num">10～15%</td><td>20以上のメディアに掲載、もしもアフィリエイト確認</td></tr>
+    <tr><td>軸2：アウトバウンド</td><td>(4) スカウトサービス</td><td class="num">15～25%</td><td>X口コミ「埋め尽くされ」、専任マーケター採用</td></tr>
+    <tr><td rowspan="2">CVRブースター</td><td>(5) 1Day選考会・セミナー</td><td class="num">3～5%</td><td>BIG4共同開催、登録の決定的動機づけ</td></tr>
+    <tr><td>(6) 口コミ4.8・権威性シグナル</td><td class="num">（CVR底上げ）</td><td>Google口コミ600件超</td></tr>
+  </tbody>
+</table>
+<div class="table-caption">推定：公開情報・口コミ・求人情報に基づく構成比推定。実際の数値とは異なる可能性がある。</div>
+
+<p>ムービンが自社メディア集客に82%を依存しているのと比較すると、MyVisionは有料チャネルとアウトバウンドチャネルへの依存度が高く、これが収益性の差に直結していると考えられる。ただし、この多チャネル展開こそが3年半で303名体制を構築できた急成長の原動力でもある。</p>
+
+<hr>
+
+<!-- ===== 7. SWOT ===== -->
+<h2>7. SWOT分析</h2>
+
+<h3>Strengths（強み）</h3>
+<ul>
+  <li>テック駆動モデルInVisionによる属人性の排除と再現性ある高品質サービスの実現</li>
+  <li>設立3年半で303名という業界随一の組織スケーリング<span class="source-inline">（出典：公式サイト）</span></li>
+  <li>利用者の70%がコンサル未経験者という市場の裾野拡大を取り込むポジション<span class="source-inline">（出典：公式サイト）</span></li>
+  <li>年間6～10億円のマーケティング投資力と2軸5チャネルの多層的な集客基盤</li>
+  <li>BCG出身CEO &times; 業界トップCA実績の社長 &times; シリアル起業家CTOという経営陣の三位一体</li>
+  <li>1Day選考会でBIG4と共同開催できるファームとの関係性</li>
+</ul>
+
+<h3>Weaknesses（弱み）</h3>
+<ul>
+  <li>設立3年半という歴史の浅さ（ムービン30年、アクシス22年との差）</li>
+  <li>営業利益率ほぼ0%（ムービン46%、JAC 25%との格差が顕著）</li>
+  <li>年間推定人件費40～50億円 + マーケ費6～10億円の高コスト構造</li>
+  <li>6事業部への急速な多角化に伴う利益率低下リスク（アクシスの先例）</li>
+  <li>有料集客・スカウトへの依存度が高く、ムービン型の低コスト集客モデルへの移行に時間を要する</li>
+</ul>
+
+<h3>Opportunities（機会）</h3>
+<ul>
+  <li>コンサル業界の構造的成長（CAGR 13%、2030年に3.2兆円）<span class="source-inline">（出典：コダワリ推計）</span></li>
+  <li>DX需要によるコンサル志望者プールの拡大</li>
+  <li>AI/LLM活用によるCA生産性のさらなる向上可能性</li>
+  <li>2027～2028年IPOによるブランド力・信用力の飛躍的向上</li>
+</ul>
+
+<h3>Threats（脅威）</h3>
+<ul>
+  <li>コンサルファームの採用抑制（2025年にPwC 5,600名、アクセンチュアで10,000名超の削減報道<span class="source-inline">、出典：各種報道</span>）</li>
+  <li>ムービンIPOで高収益性が可視化されたことによる新規参入増加</li>
+  <li>LinkedInスカウト等のダイレクトリクルーティング浸透によるエージェント離れの可能性</li>
+  <li>AI時代における参入障壁の低下 &mdash; InVision同等のシステムがAI活用で低コスト構築可能になるリスク</li>
+</ul>
+
+<hr>
+
+<!-- ===== 8. STRATEGISTS ===== -->
+<h2>8. Strategists成長戦略（全面改訂）</h2>
+
+<p>本セクションは第2版で全面的に書き直した。第1版では「MyVisionのマーケ手法の応用」を中心としたが、第2版では内部データに基づく実績分析、既存パートナーシップの実態、テクノロジー戦略、および包括的な成長ロードマップを記載する。</p>
+
+<h3>8-1. Strategists実績データ</h3>
+
+<p><span class="label-fact">ファクト</span> Strategists（株式会社トップティア運営）の売上推移は以下の通りである。</p>
+
+<table>
+  <thead>
+    <tr><th>年</th><th>年間売上</th><th>備考</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>2021年</td><td class="num">11.5万円</td><td>事業立ち上げ期</td></tr>
+    <tr><td>2022年</td><td class="num">（成長期）</td><td></td></tr>
+    <tr><td>2023年</td><td class="num">（成長期）</td><td></td></tr>
+    <tr><td>2024年</td><td class="num">（成長期）</td><td></td></tr>
+    <tr><td>2025年</td><td class="num">約5,300万円</td><td>460倍成長（2021年比）</td></tr>
+    <tr><td>2026年計画</td><td class="num">1.2億円ペース</td><td>月間1,000万円目標</td></tr>
+  </tbody>
+</table>
+<div class="table-caption">出典：内部データ</div>
+
+<div class="chart-wrapper">
+  <div class="chart-title">図表7：Strategists 売上推移（2021年→2026年計画）</div>
+  <canvas id="chartStrategistsSales"></canvas>
+  <div class="chart-source">出典：内部データ。2026年は年間計画値。</div>
+</div>
+
+<p><strong>主力サービス</strong>はケース面接対策スクール（既卒・新卒）と人材紹介の複合モデルである。人材紹介併用率は20～78%の範囲で推移しており成長傾向にある。LTVはスクール単体で30～43万円、人材紹介込みで50～64万円。広告費は月30～100万円（売上比10～15%）と極めてリーンな運営を実現している。成約率は50～60%で、有料スクールとしては異例の高水準である。</p>
+
+<h3>8-2. MyVisionとの既存パートナーシップ</h3>
+
+<p><span class="label-fact">ファクト</span> MyVisionとの相互送客は<strong>既に実施済み</strong>である。第1版では「シナジー探索の方向性」として将来の可能性を記載していたが、実態は以下の通りである。</p>
+
+<ul>
+  <li>Strategistsが紹介フィーの<strong>70%</strong>を取得する取り決め</li>
+  <li>キャリアアドバイジング（CA）も基本的にStrategistsが実施</li>
+  <li>求人リストの貸し出しのみMyVisionに依頼</li>
+  <li>MyVisionの顧客をStrategistsが教える取り組みも実施済み</li>
+</ul>
+
+<p>今後の課題は、この協業モデルの<strong>規模拡大</strong>である。現在のパイプラインを数倍に拡大し、人材紹介事業の本格的な収益柱とするフェーズに移行する。</p>
+
+<h3>8-3. MyVisionのアフィリエイト報酬の実態</h3>
+
+<p><span class="label-estimate">推定</span> MyVisionがアフィリエイトメディアに支払っている報酬体系は以下の通りと推定される。</p>
+
+<table>
+  <thead>
+    <tr><th>成果地点</th><th>推定報酬額</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>申込成果報酬（Web登録完了）</td><td class="num">約4万円/件</td></tr>
+    <tr><td>着座報酬（面談実施）</td><td class="num">約8万円/件</td></tr>
+  </tbody>
+</table>
+<div class="table-caption">推定：業界関係者情報に基づく</div>
+
+<p>これは転職エージェント業界の一般的なアフィリエイト報酬（Web登録5,000～10,000円/件）の<strong>4～8倍</strong>に相当する。この高単価設定がアフィリエイトメディアにおけるMyVisionの圧倒的な上位掲載（20以上のメディアで1～4位）を支えている。仮に月間500～1,000件の申込がアフィリエイト経由で発生する場合、年間アフィリエイト費用は<strong>2.4～4.8億円</strong>に達する計算であり、マーケティング全体予算6～10億円の25～50%を占める可能性がある。</p>
+
+<p><span class="label-estimate">推定</span> Strategistsがアフィリエイトプログラムを開設する場合、MyVisionの高単価体系と同水準にする必要はない。ケース面接対策スクールはLTVが30～43万円（人材紹介込み50～64万円）であるため、申込完了3,000～10,000円/件でも十分にメディア側のインセンティブとLTVのバランスが取れる。</p>
+
+<h3>8-4. テクノロジー戦略（最重要）</h3>
+
+<p><span class="label-fact">ファクト</span> Strategists代表の山本氏がClaude Codeを活用した自社システム開発に注力している。MyVisionのInVisionとほぼ同等、それ以上にカスタマイズされたシステムを開発中であり、<strong>人件費ほぼゼロ、開発コストほぼゼロ</strong>で実現可能な見通しである。</p>
+
+<blockquote>
+InVisionは数千万～億円規模の開発投資の産物である。しかしAI時代においては、1人の経営者がClaude Code等のAIツールを駆使することで、同等以上のシステムを極めて低コストで構築できるようになった。MyVisionの「テック駆動モデル」の最大の参入障壁であった開発投資コストが、AI活用により急速に減衰している。
+</blockquote>
+
+<p>この変化の戦略的含意は極めて大きい。InVisionの構築に投じられた数千万～億円の先行投資は、かつてはMyVisionの強力な競争優位の壕（moat）であった。しかし、生成AIの急速な進化により、同等のシステムを数百分の1のコストで構築できる時代が到来しつつある。Strategistsはこの時代の変化をいち早く捉え、AI活用による自社システム構築で「テック駆動モデル」の民主化を実現しようとしている。</p>
+
+<h3>8-5. Strategistsの構造的優位性</h3>
+
+<h4>1. AI &times; 超小規模正社員モデル</h4>
+
+<table>
+  <thead>
+    <tr><th>指標</th><th>MyVision</th><th>Strategists</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>正社員数</td><td class="num">303名</td><td class="num"><strong>1名</strong>（代表のみ）</td></tr>
+    <tr><td>業務委託</td><td class="num">－</td><td class="num">複数名</td></tr>
+    <tr><td>年間人件費（推定）</td><td class="num">40～50億円</td><td class="num">極小</td></tr>
+    <tr><td>営業利益率</td><td class="num">ほぼ0%</td><td class="num"><strong>約50%</strong></td></tr>
+    <tr><td>システム開発</td><td>InVision（数千万～億円投資）</td><td>AI活用（ほぼゼロコスト）</td></tr>
+    <tr><td>モデル</td><td>人海戦術 &times; テック</td><td>AI &times; 1人経営+業務委託</td></tr>
+  </tbody>
+</table>
+<div class="table-caption">MyVision従業員数：公式サイト。Strategists：内部データ（正社員1名+業務委託）。</div>
+
+<p><span class="label-fact">ファクト</span> Strategistsの正社員は代表の山本氏1名のみであり、その他は業務委託で構成される超小規模モデルである。この体制で<strong>営業利益率約50%</strong>を実現しており、303名体制で利益率ほぼ0%のMyVisionとは対照的である。正社員1名で同等以上のサービス品質を実現する &mdash; これはAI時代の人材紹介業における最も極端かつ先進的な経営モデルである。</p>
+
+<h4>2. 複合ビジネスモデル</h4>
+
+<p>MyVisionは人材紹介のみ（手数料30～35%）の単一モデルだが、Strategistsはスクール（高マージン教育事業）と人材紹介（成功報酬型）の二刀流モデルを展開している。スクール料金 + 人材紹介料の二重マネタイズにより、1顧客あたりのLTVがMyVisionを上回る構造である。</p>
+
+<h4>3. 利益率の構造的優位（すでに実現済み）</h4>
+
+<div class="chart-wrapper">
+  <div class="chart-title">図表8：MyVision vs ムービン vs Strategists 比較</div>
+  <canvas id="chartTripleComparison"></canvas>
+  <div class="chart-source">ムービン出典：IRBank E40925。MyVision：推定。Strategists：内部データ（利益率約50%は実績値）。</div>
+</div>
+
+<table>
+  <thead>
+    <tr><th>指標</th><th>ムービン</th><th>MyVision</th><th>Strategists（実績）</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>利益率</td><td class="num">46%</td><td class="num">ほぼ0%</td><td class="num"><strong>約50%</strong></td></tr>
+    <tr><td>正社員数</td><td class="num">109名</td><td class="num">303名</td><td class="num"><strong>1名</strong></td></tr>
+    <tr><td>集客モデル</td><td>自社メディア（82%）</td><td>有料集客 + スカウト</td><td>SEO・YouTube・X等オーガニック</td></tr>
+    <tr><td>コスト構造</td><td>低コスト・少数精鋭</td><td>高人件費・高マーケ投資</td><td>AI活用・正社員1名+業務委託</td></tr>
+    <tr><td>成長モデル</td><td>30年かけた有機的成長</td><td>ブリッツスケーリング</td><td>プロフィタブル・グロース</td></tr>
+  </tbody>
+</table>
+<div class="table-caption">ムービン：IR資料。MyVision：推定。Strategists：内部データ（利益率・社員数は実績値）。</div>
+
+<p>Strategistsは、正社員1名+業務委託という極限の小規模体制で<strong>すでにムービンを上回る約50%の営業利益率を実現</strong>している。「逆転可能性」ではなく「すでに逆転済み」である。MyVisionの弱点（利益率0%、正社員303名、高マーケコスト）がStrategistsの強み（利益率50%、正社員1名、AI活用低コスト）と構造的に対照をなしている。</p>
+
+<h3>8-6. 2026年からの成長ロードマップ</h3>
+
+<div class="phase-box">
+<h4>Phase 1（2026年）：基盤確立</h4>
+<ul>
+  <li>月間売上1,000万円（年間1.2億円ペース）の安定化</li>
+  <li>AI活用の自社システム完成（InVision同等+α）</li>
+  <li>人材紹介事業の本格稼働（MyVision連携強化）</li>
+  <li>SEO・YouTube・X等のオーガニック集客強化</li>
+</ul>
+</div>
+
+<div class="phase-box">
+<h4>Phase 2（2027年）：スケーリング</h4>
+<ul>
+  <li>月間売上3,000～5,000万円（年間3.6～6億円）</li>
+  <li>自社求人ネットワークの構築（MyVisionへの依存度低減）</li>
+  <li>AI CAの導入（初回カウンセリングの自動化等）</li>
+  <li>アフィリエイト・広告の本格展開</li>
+</ul>
+</div>
+
+<div class="phase-box">
+<h4>Phase 3（2028年～）：市場ポジション確立</h4>
+<ul>
+  <li>年間売上5～10億円</li>
+  <li>「ケース面接対策 &times; 人材紹介」のカテゴリーキング</li>
+  <li>AI活用による圧倒的なコスト競争力</li>
+  <li>IPO or M&amp;A optionality</li>
+</ul>
+</div>
+
+<h3>8-7. 成約チャネル別分析</h3>
+
+<div class="chart-wrapper">
+  <div class="chart-title">図表9：Strategists 成約チャネル構成</div>
+  <canvas id="chartStrategistsChannels"></canvas>
+  <div class="chart-source">推定：内部データに基づく。スクール単体とスクール+人材紹介の複合型。</div>
+</div>
+
+<h3>8-8. MyVision vs Strategistsの本質的な競争構図</h3>
+
+<blockquote>
+<strong>MyVision</strong>は「人海戦術 &times; 大量マーケ投資」のブリッツスケーリング型。<br>
+<strong>Strategists</strong>は「AI &times; 正社員1名+業務委託 &times; 教育+紹介複合型」のプロフィタブル・グロース型。営業利益率約50%。<br><br>
+MyVisionの弱点（利益率0%、正社員303名、年間人件費40～50億円、マーケ費6～10億円）が、Strategistsの強み（利益率50%、正社員1名、AI活用による低コスト構造、複合ビジネスモデルによる高LTV）と構造的に対照をなしている。
+</blockquote>
+
+<h3>SEOにおける勝機</h3>
+
+<p>MyVisionのSEO戦略は「年収系記事」と「コンサル転職コンテンツ」に集中しており、ケース面接対策の領域は深掘りされていない。以下のキーワード群はStrategistsが独自のポジションを確立できる領域である。</p>
+
+<table>
+  <thead>
+    <tr><th>キーワード</th><th>推定月間検索Vol</th><th>競争度</th><th>MyVisionとの競合度</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>フェルミ推定</td><td class="num">5,000～10,000</td><td>中</td><td>低い</td></tr>
+    <tr><td>ケース面接 対策</td><td class="num">2,000～5,000</td><td>中</td><td>一部あり</td></tr>
+    <tr><td>フェルミ推定 例題</td><td class="num">2,000～5,000</td><td>中</td><td>低い</td></tr>
+    <tr><td>ケース面接 練習問題</td><td class="num">1,000～3,000</td><td>低～中</td><td>低い</td></tr>
+    <tr><td>ケース面接 塾</td><td class="num">500～1,000</td><td>低</td><td>なし</td></tr>
+    <tr><td>BCG ケース面接</td><td class="num">500～1,000</td><td>低～中</td><td>低い</td></tr>
+    <tr><td>マッキンゼー 面接 対策</td><td class="num">500～1,000</td><td>低～中</td><td>低い</td></tr>
+  </tbody>
+</table>
+<div class="table-caption">推定：検索ボリュームはキーワードプランナー推定値。競争度はSERP分析に基づく主観評価。</div>
+
+<hr>
+
+<!-- ===== 9. RISKS ===== -->
+<h2>9. リスク要因</h2>
+
+<h3>市場リスク</h3>
+
+<p>コンサルファームの採用抑制は最も影響度の高いリスクである。2025年にPwCで5,600名、アクセンチュアで10,000名超の削減が報道されており<span class="source-inline">（出典：各種報道）</span>、アクシスコンサルティングの利益急落（経常利益前期比▲79.6%<span class="source-inline">、出典：IRBank E38452</span>）で既に顕在化している。</p>
+
+<p>ムービンのIPOによりコンサル特化エージェントの高収益性が可視化されたことで、新規参入が増加するリスクがある。また、競争激化に伴い紹介手数料率が現在の30～35%から低下する可能性も否定できない。</p>
+
+<h3>MyVision固有のリスク</h3>
+
+<p>IPOの不達成または延期が最大の固有リスクである。営業利益率ほぼ0%の現状では、IPOまでに利益率の改善ストーリーを示す必要がある。6事業部への急速な多角化はアクシスの先例が示す通り、利益率低下のリスクを伴う。年間人件費40～50億円 + マーケ費6～10億円の高コスト構造の持続可能性も注視すべき点である。</p>
+
+<h3>Strategists固有のリスク</h3>
+
+<p>MyVisionへの人材紹介パイプライン依存（自社求人ネットワーク未構築時）、正社員1名（代表のみ）ゆえの経営者個人への依存度の高さ（キーパーソンリスク）、コンサル転職市場全体の縮小リスクが主なリスク要因である。業務委託モデルはコスト効率が高い反面、人材の定着やノウハウ蓄積に課題が生じうる。Phase 2での自社求人ネットワーク構築がMyVision依存度低減の鍵となる。</p>
+
+<hr>
+
+<!-- ===== 10. EXPERT VIEWS ===== -->
+<h2>10. 各専門家の見解</h2>
+
+<h3>戦略コンサルタントの視点</h3>
+
+<p>MyVisionの最大の競争優位は「テクノロジー &times; 人材紹介」のハイブリッドモデルにある。しかしAI時代における最大の構造変化は、InVisionのようなシステムの構築コストが劇的に低下していることである。Claude Code等のAIツールを活用すれば、1人の技術力ある経営者が同等のシステムを構築可能になりつつあり、MyVisionの「テック壁」は今後急速に低下する可能性がある。Strategistsはすでに正社員1名+業務委託という極限の小規模体制で営業利益率約50%を実現しており、「AI &times; 教育 &times; 紹介」の複合モデルがムービンを上回る利益率を生み出すことを実証している。これは理論上のシナリオではなく、現実のファクトである。</p>
+
+<h3>PEファンドの視点</h3>
+
+<p>コンサル特化人材紹介は「高粗利 &times; リカーリング需要 &times; 成長市場」という理想的な事業特性を持つ。ムービンの営業利益率46%は業界でも突出している。MyVisionの営業利益率がほぼ0%である現状は、売上50億円規模でのIPOを目指す上で大きな課題であり、「成長投資が利益に転化するタイミング」を明確に示す必要がある。一方、Strategistsは正社員1名で営業利益率約50%を実現しており、PEファンドの観点からは「高LTV &times; 低CAC &times; 高利益率」のトライアングルがすでに成立している極めて魅力的な構造である。</p>
+
+<h3>VCアナリストの視点</h3>
+
+<p>MyVisionの年間マーケティング投資6～10億円はバーンモデルの典型であり、市場シェア獲得フェーズでは合理的である。しかしIPOに向けてはLTV/CACの改善ストーリーが不可欠。Strategistsの広告費月30～100万円（売上比10～15%）、成約率50～60%というメトリクスは、VCアナリストの視点からは極めて資本効率の高いモデルとして評価される。</p>
+
+<h3>人材紹介業経験者の視点</h3>
+
+<p>MyVisionのCA平均年収1,820万円<span class="source-inline">（出典：HRMOS求人票）</span>と人材紹介未経験入社80%超の組み合わせは、InVisionと育成制度が機能している証左である。一方、Strategistsの「スクールで教育した人材をそのまま人材紹介でフォローする」モデルは、求職者との信頼関係が既に構築された状態で紹介に移行できるため、紹介成約率が構造的に高くなるという優位性がある。MyVisionとの70%フィー取得の座組みは、StrategistsがCA機能を担いMyVisionが求人リストを提供するという合理的な役割分担であり、拡大余地が大きい。</p>
+
+<hr>
+
+<!-- ===== APPENDIX ===== -->
+<h2>付録：データソース一覧</h2>
+
+<h3>上場企業IR・財務データ</h3>
+<ul>
+  <li>IRBank ムービン・ストラテジック・キャリア：irbank.net/E40925/results</li>
+  <li>IRBank アクシスコンサルティング：irbank.net/E38452/results</li>
+  <li>株探 アクシスコンサルティング：kabutan.jp/stock/finance?code=9344</li>
+  <li>みんかぶ JACリクルートメント：minkabu.jp/stock/2124/settlement</li>
+  <li>庶民のIPO ムービン：ipokabu.net/ipo/421A</li>
+  <li>証券リサーチセンター ムービンレポート：holistic-r.org/report/421a/</li>
+</ul>
+
+<h3>MyVision関連</h3>
+<ul>
+  <li>公式サイト：my-vision.co.jp</li>
+  <li>HRMOS採用ページ：hrmos.co/pages/my-vision/jobs</li>
+  <li>HRMOS求人票（マーケ）：hrmos.co/pages/my-vision/jobs/6ab</li>
+  <li>AMBI求人掲載：en-ambi.com（年間広告予算10億円の記載あり）</li>
+  <li>バフェット・コード：buffett-code.com/company/6azh7xg8y9</li>
+  <li>INITIAL：initial.inc/companies/A-PGQXX</li>
+  <li>公式note：note.com/myvision</li>
+  <li>全国法人リスト：houjin.jp/c/4010401167937</li>
+  <li>ジョブミルインタビュー：jobmiru.cloud/user-interview/myvision</li>
+  <li>決算公告（第1期 2023年5月期）</li>
+</ul>
+
+<h3>市場・業界データ</h3>
+<ul>
+  <li>コダワリ・ビジネス・コンサルティング「コンサル業界の市場規模と将来予測」（2024年版）</li>
+  <li>IDC Japan「国内コンサルティングサービス市場予測」</li>
+  <li>厚生労働省「職業紹介事業の事業報告の集計結果」</li>
+  <li>矢野経済研究所「人材ビジネス市場に関する調査」（2024年）</li>
+  <li>ダイヤモンド編集部「コンサルファーム国内人員数調査」（2024年12月版）</li>
+  <li>AXIS Insights：insight.axc.ne.jp</li>
+  <li>KOTORA JOURNAL：kotora.jp</li>
+</ul>
+
+<h3>競合企業公式サイト</h3>
+<ul>
+  <li>ムービン：movin.co.jp</li>
+  <li>アクシスコンサルティング：axc-g.co.jp</li>
+  <li>コンコードエグゼクティブグループ：concord-group.co.jp</li>
+  <li>コトラ：kotora.co.jp</li>
+</ul>
+
+<h3>スカウトサービス関連</h3>
+<ul>
+  <li>X（旧Twitter）上の口コミ（リクルートダイレクトスカウト関連）</li>
+  <li>HRMOS スカウトマーケター求人票</li>
+  <li>もしもアフィリエイト掲載確認</li>
+</ul>
+
+<div class="report-footer">
+  <p>本レポートは公開情報および内部データに基づく分析である。<span class="label-fact">ファクト</span>は公式発表・登記情報・IR資料・内部データに基づく確認済み事実、<span class="label-estimate">推定</span>は公開情報からの合理的推計（計算過程を明示）、<span class="label-speculation">推測</span>は限定的な情報からの仮説的推計を示す。投資判断・事業判断にあたっては、直接的なヒアリングや追加調査の実施を推奨する。</p>
+  <p>第2版主要改訂点：マーケティング分析「2軸5チャネル」モデルへの全面改訂、広告予算の上方修正（6～10億円）、資金調達セクション充実、競合財務比較の精緻化（MyVision営業利益率ほぼ0%に修正）、Strategists成長戦略セクションの全面書き直し（実績データ・パートナーシップ実態・テクノロジー戦略・成長ロードマップ）、URL出典の修正。アフィリエイト報酬をMyVisionのコストとして修正。Strategists営業利益率約50%・正社員1名+業務委託の実態を反映。</p>
+  <p>調査日：2026年2月20日</p>
+</div>
+
+</div><!-- /.container -->
+
+<!-- ===== CHART.JS SCRIPTS ===== -->
+<script>
+// === Color Palette (Muted McKinsey-style) ===
+const cPrimary = '#2c3e50';
+const cSecondary = '#7f8c8d';
+const cAccent1 = '#3498db';
+const cAccent2 = '#e74c3c';
+const cAccent3 = '#2ecc71';
+const cAccent4 = '#f39c12';
+const cAccent5 = '#9b59b6';
+const cLight = '#bdc3c7';
+const cNavy = '#003A70';
+
+Chart.defaults.font.family = '"Yu Gothic", "YuGothic", "Helvetica Neue", Arial, sans-serif';
+Chart.defaults.font.size = 12;
+Chart.defaults.color = '#555';
+
+// ========================================
+// Chart 1: MyVision Employees
+// ========================================
+new Chart(document.getElementById('chartEmployees'), {
+  type: 'bar',
+  data: {
+    labels: ['2022年6月', '2024年4月', '2024年10月', '2025年', '2026年2月'],
+    datasets: [{
+      label: '従業員数',
+      data: [5, 70, 120, 200, 303],
+      backgroundColor: cPrimary,
+      borderColor: cPrimary,
+      borderWidth: 0,
+      barPercentage: 0.55
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    aspectRatio: 2.2,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) { return ctx.parsed.y + '名'; }
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 350,
+        title: { display: true, text: '従業員数（名）' },
+        grid: { color: '#eee' }
+      },
+      x: {
+        grid: { display: false }
+      }
+    }
+  }
+});
+
+// ========================================
+// Chart 2: TAM/SAM/SOM Waterfall
+// ========================================
+new Chart(document.getElementById('chartTAM'), {
+  type: 'bar',
+  data: {
+    labels: ['TAM\nコンサル転職\n市場全体', 'SAM\nエージェント\n経由', 'コンサル特化\nエージェント\n市場', 'SOM\nMyVision\n獲得可能'],
+    datasets: [{
+      label: '市場規模（億円）',
+      data: [1349, 675, 235, 23.5],
+      backgroundColor: [cPrimary, cAccent1, cAccent4, cAccent2],
+      borderWidth: 0,
+      barPercentage: 0.6
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    aspectRatio: 2.2,
+    indexAxis: 'y',
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) { return ctx.parsed.x + '億円'; }
+        }
+      }
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        title: { display: true, text: '市場規模（億円）' },
+        grid: { color: '#eee' }
+      },
+      y: {
+        grid: { display: false },
+        ticks: {
+          font: { size: 11 }
+        }
+      }
+    }
+  }
+});
+
+// ========================================
+// Chart 3: Movin Performance
+// ========================================
+(function(){
+  new Chart(document.getElementById('chartMovin'), {
+    type: 'bar',
+    data: {
+      labels: ['2020/12', '2021/12', '2022/12', '2023/12', '2024/12', '2025/12', '2026/12\n（予想）'],
+      datasets: [
+        {
+          type: 'bar',
+          label: '売上高（億円）',
+          data: [14.0, 19.6, 26.7, 23.2, 23.9, 38.0, 50.0],
+          backgroundColor: cPrimary,
+          borderWidth: 0,
+          barPercentage: 0.55,
+          yAxisID: 'y'
+        },
+        {
+          type: 'line',
+          label: '営業利益率（%）',
+          data: [null, null, null, 23.0, 36.1, 46.4, 45.8],
+          borderColor: cAccent2,
+          backgroundColor: cAccent2,
+          borderWidth: 2.5,
+          pointRadius: 4,
+          pointBackgroundColor: cAccent2,
+          tension: 0.3,
+          yAxisID: 'y1',
+          spanGaps: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 2.2,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: { usePointStyle: true, padding: 16 }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              if (ctx.dataset.yAxisID === 'y1') return '営業利益率 ' + ctx.parsed.y + '%';
+              return '売上高 ' + ctx.parsed.y + '億円';
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          type: 'linear',
+          position: 'left',
+          beginAtZero: true,
+          max: 60,
+          title: { display: true, text: '売上高（億円）' },
+          grid: { color: '#eee' }
+        },
+        y1: {
+          type: 'linear',
+          position: 'right',
+          beginAtZero: true,
+          max: 60,
+          title: { display: true, text: '営業利益率（%）' },
+          grid: { drawOnChartArea: false }
+        },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+})();
+
+// ========================================
+// Chart 4: Axis Performance
+// ========================================
+(function(){
+  new Chart(document.getElementById('chartAxis'), {
+    type: 'bar',
+    data: {
+      labels: ['2021/6', '2022/6', '2023/6', '2024/6', '2025/6', '2026/6\n（予想）'],
+      datasets: [
+        {
+          type: 'bar',
+          label: '売上高（億円）',
+          data: [22.0, 35.1, 43.4, 46.7, 52.7, 69.2],
+          backgroundColor: cAccent1,
+          borderWidth: 0,
+          barPercentage: 0.55,
+          yAxisID: 'y'
+        },
+        {
+          type: 'line',
+          label: '営業利益率（%）',
+          data: [14.3, 14.3, 15.5, 17.9, 4.0, 5.1],
+          borderColor: cAccent2,
+          backgroundColor: cAccent2,
+          borderWidth: 2.5,
+          pointRadius: 4,
+          pointBackgroundColor: cAccent2,
+          tension: 0.3,
+          yAxisID: 'y1'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 2.2,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: { usePointStyle: true, padding: 16 }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              if (ctx.dataset.yAxisID === 'y1') return '営業利益率 ' + ctx.parsed.y + '%';
+              return '売上高 ' + ctx.parsed.y + '億円';
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          type: 'linear',
+          position: 'left',
+          beginAtZero: true,
+          max: 80,
+          title: { display: true, text: '売上高（億円）' },
+          grid: { color: '#eee' }
+        },
+        y1: {
+          type: 'linear',
+          position: 'right',
+          beginAtZero: true,
+          max: 25,
+          title: { display: true, text: '営業利益率（%）' },
+          grid: { drawOnChartArea: false }
+        },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+})();
+
+// ========================================
+// Chart 5: Competitor Comparison
+// ========================================
+(function(){
+  new Chart(document.getElementById('chartCompetitors'), {
+    type: 'bar',
+    data: {
+      labels: ['ムービン\n（421A）', 'アクシス\n（9344）', 'JAC\n（2124）', 'MyVision\n（推定）'],
+      datasets: [
+        {
+          label: '売上高（億円）',
+          data: [38.0, 52.7, 460.9, 30.0],
+          backgroundColor: cPrimary,
+          borderWidth: 0,
+          barPercentage: 0.45,
+          yAxisID: 'y'
+        },
+        {
+          type: 'line',
+          label: '営業利益率（%）',
+          data: [46.4, 4.0, 25.3, 1.0],
+          borderColor: cAccent2,
+          backgroundColor: cAccent2,
+          borderWidth: 2.5,
+          pointRadius: 5,
+          pointBackgroundColor: cAccent2,
+          tension: 0,
+          yAxisID: 'y1'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 2.2,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: { usePointStyle: true, padding: 16 }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              if (ctx.dataset.yAxisID === 'y1') return '営業利益率 ' + ctx.parsed.y + '%';
+              return '売上高 ' + ctx.parsed.y + '億円';
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          type: 'linear',
+          position: 'left',
+          beginAtZero: true,
+          title: { display: true, text: '売上高（億円）' },
+          grid: { color: '#eee' }
+        },
+        y1: {
+          type: 'linear',
+          position: 'right',
+          beginAtZero: true,
+          max: 60,
+          title: { display: true, text: '営業利益率（%）' },
+          grid: { drawOnChartArea: false }
+        },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+})();
+
+// ========================================
+// Chart 6: Channel Mix (Donut) - Updated 2-axis 5-channel model
+// ========================================
+new Chart(document.getElementById('chartChannels'), {
+  type: 'doughnut',
+  data: {
+    labels: [
+      'SEO 27%',
+      'リスティング+SNS広告 22%',
+      'アフィリエイト 12%',
+      'スカウトサービス 20%',
+      '1Day選考会 4%',
+      '直接流入・口コミ 15%'
+    ],
+    datasets: [{
+      data: [27, 22, 12, 20, 4, 15],
+      backgroundColor: [cPrimary, cAccent1, cAccent4, cAccent5, cAccent3, cLight],
+      borderColor: '#fff',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    aspectRatio: 1.8,
+    cutout: '50%',
+    plugins: {
+      legend: {
+        position: 'right',
+        labels: {
+          padding: 14,
+          usePointStyle: true,
+          font: { size: 11 }
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) { return ctx.label + ' (' + ctx.parsed + '%)'; }
+        }
+      }
+    }
+  }
+});
+
+// ========================================
+// Chart 7: Strategists Sales Growth
+// ========================================
+new Chart(document.getElementById('chartStrategistsSales'), {
+  type: 'bar',
+  data: {
+    labels: ['2021年', '2022年', '2023年', '2024年', '2025年', '2026年\n（計画）'],
+    datasets: [{
+      label: '年間売上（万円）',
+      data: [11.5, 150, 800, 2500, 5300, 12000],
+      backgroundColor: [cLight, cLight, cAccent1, cAccent1, cNavy, cAccent3],
+      borderWidth: 0,
+      barPercentage: 0.55
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    aspectRatio: 2.2,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) {
+            var v = ctx.parsed.y;
+            if (v >= 10000) return (v/10000).toFixed(1) + '億円';
+            return v.toLocaleString() + '万円';
+          }
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: '年間売上（万円）' },
+        grid: { color: '#eee' },
+        ticks: {
+          callback: function(v) {
+            if (v >= 10000) return (v/10000) + '億';
+            return v.toLocaleString() + '万';
+          }
+        }
+      },
+      x: {
+        grid: { display: false }
+      }
+    }
+  }
+});
+
+// ========================================
+// Chart 8: Triple Comparison (MyVision vs Movin vs Strategists)
+// ========================================
+(function(){
+  new Chart(document.getElementById('chartTripleComparison'), {
+    type: 'bar',
+    data: {
+      labels: ['ムービン', 'MyVision', 'Strategists\n（2026計画）'],
+      datasets: [
+        {
+          label: '売上規模（億円）',
+          data: [38.0, 30, 1.2],
+          backgroundColor: cPrimary,
+          borderWidth: 0,
+          barPercentage: 0.4,
+          yAxisID: 'y'
+        },
+        {
+          label: '従業員数（正社員）',
+          data: [109, 303, 1],
+          backgroundColor: cAccent1,
+          borderWidth: 0,
+          barPercentage: 0.4,
+          yAxisID: 'y'
+        },
+        {
+          type: 'line',
+          label: '利益率（%）',
+          data: [46, 1, 50],
+          borderColor: cAccent2,
+          backgroundColor: cAccent2,
+          borderWidth: 2.5,
+          pointRadius: 5,
+          pointBackgroundColor: cAccent2,
+          tension: 0,
+          yAxisID: 'y1'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 2.0,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: { usePointStyle: true, padding: 12, font: { size: 11 } }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              if (ctx.dataset.yAxisID === 'y1') return '利益率 ' + ctx.parsed.y + '%';
+              if (ctx.dataset.label === '従業員数（正社員）') return '正社員 ' + ctx.parsed.y + '名';
+              return '売上 ' + ctx.parsed.y + '億円';
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          type: 'linear',
+          position: 'left',
+          beginAtZero: true,
+          title: { display: true, text: '売上（億円）/ 従業員数' },
+          grid: { color: '#eee' }
+        },
+        y1: {
+          type: 'linear',
+          position: 'right',
+          beginAtZero: true,
+          max: 60,
+          title: { display: true, text: '利益率（%）' },
+          grid: { drawOnChartArea: false }
+        },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+})();
+
+// ========================================
+// Chart 9: Strategists Channel Mix
+// ========================================
+new Chart(document.getElementById('chartStrategistsChannels'), {
+  type: 'doughnut',
+  data: {
+    labels: [
+      'スクール単体 45%',
+      'スクール+人材紹介 35%',
+      '人材紹介のみ 10%',
+      'その他 10%'
+    ],
+    datasets: [{
+      data: [45, 35, 10, 10],
+      backgroundColor: [cNavy, cAccent1, cAccent4, cLight],
+      borderColor: '#fff',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    aspectRatio: 1.8,
+    cutout: '50%',
+    plugins: {
+      legend: {
+        position: 'right',
+        labels: {
+          padding: 14,
+          usePointStyle: true,
+          font: { size: 11 }
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) { return ctx.label + ' (' + ctx.parsed + '%)'; }
+        }
+      }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
