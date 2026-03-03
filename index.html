@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>コンサル転職ch YouTube チャンネル分析レポート</title>
+<title>Strategists YouTube チャンネル分析レポート v2</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
   /* ===== Base Reset & Typography ===== */
@@ -333,6 +333,118 @@
     vertical-align: middle;
   }
 
+  /* ===== Roadmap ===== */
+  .roadmap {
+    position: relative;
+    padding-left: 28px;
+    margin: 2em 0;
+  }
+
+  .roadmap::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #ccc;
+  }
+
+  .roadmap-phase {
+    position: relative;
+    margin-bottom: 2em;
+    padding: 1em 1.2em;
+    background: #f9f9f9;
+    border-left: 3px solid #003A70;
+  }
+
+  .roadmap-phase::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 16px;
+    width: 12px;
+    height: 12px;
+    background: #003A70;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+
+  .roadmap-phase h4 {
+    margin-top: 0;
+    color: #003A70;
+  }
+
+  .roadmap-phase .phase-target {
+    font-family: "Yu Gothic", "YuGothic", sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #1a6b52;
+    margin-top: 0.5em;
+  }
+
+  /* ===== Video Cards ===== */
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 1.5em 0 2em;
+  }
+
+  .video-card {
+    background: #fcfcfc;
+    border: 1px solid #eee;
+    overflow: hidden;
+  }
+
+  .video-card .thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+    background: #f0f0f0;
+  }
+
+  .video-card .card-body {
+    padding: 10px 12px;
+  }
+
+  .video-card .card-rank {
+    font-family: "Yu Gothic", "YuGothic", sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #fff;
+    background: #222;
+    display: inline-block;
+    padding: 0 6px;
+    border-radius: 2px;
+    margin-bottom: 4px;
+  }
+
+  .video-card .card-title {
+    font-family: "Yu Gothic", "YuGothic", sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #222;
+    line-height: 1.4;
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .video-card .card-stats {
+    font-family: "Yu Gothic", "YuGothic", sans-serif;
+    font-size: 0.72rem;
+    color: #888;
+    line-height: 1.5;
+  }
+
+  .video-card .card-stats strong {
+    color: #333;
+  }
+
   /* ===== Comparison Bar ===== */
   .comparison-bar-container {
     margin: 0.5em 0;
@@ -364,21 +476,46 @@
     font-family: "Yu Gothic", "YuGothic", sans-serif;
   }
 
-  .comparison-bar-benchmark {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 2px;
-    background: #c23b22;
+  /* ===== Lead Funnel ===== */
+  .funnel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin: 2em 0;
+    flex-wrap: wrap;
   }
 
-  .comparison-bar-benchmark-label {
+  .funnel-step {
+    text-align: center;
+    padding: 14px 20px;
+    background: #003A70;
+    color: #fff;
+    font-family: "Yu Gothic", "YuGothic", sans-serif;
+    position: relative;
+    min-width: 120px;
+  }
+
+  .funnel-step:nth-child(1) { background: #003A70; }
+  .funnel-step:nth-child(3) { background: #1a5276; }
+  .funnel-step:nth-child(5) { background: #2e86c1; }
+  .funnel-step:nth-child(7) { background: #1a6b52; }
+
+  .funnel-step .funnel-num {
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .funnel-step .funnel-label {
     font-size: 0.72rem;
-    color: #c23b22;
-    position: absolute;
-    top: -16px;
-    transform: translateX(-50%);
-    white-space: nowrap;
+    opacity: 0.9;
+  }
+
+  .funnel-arrow {
+    font-size: 1.2rem;
+    color: #999;
+    padding: 0 6px;
   }
 
   /* ===== Footer ===== */
@@ -411,6 +548,9 @@
     thead th, tbody td { padding: 5px 6px; }
     .kpi-grid { grid-template-columns: repeat(2, 1fr); }
     .kpi-value { font-size: 1.3rem; }
+    .video-grid { grid-template-columns: repeat(2, 1fr); }
+    .funnel { flex-direction: column; gap: 0; }
+    .funnel-arrow { transform: rotate(90deg); }
   }
 </style>
 </head>
@@ -418,110 +558,317 @@
 
 <div class="container">
 
-<!-- ===== TITLE ===== -->
+<!-- ===== 1. TITLE ===== -->
 <div class="title-block">
-  <div class="subtitle">YouTube Channel Analytics &amp; Growth Strategy</div>
+  <div class="subtitle">YouTube Channel Analytics &amp; Growth Strategy Report v2</div>
   <h1>コンサル転職ch (by Strategists)<br>チャンネル分析レポート</h1>
-  <div class="date">2026年3月4日 &mdash; データ期間：2024年12月〜2026年2月</div>
+  <div class="date">2026年3月4日 &mdash; データ期間：2025年3月〜2026年2月（12ヶ月）/ 動画89本 / リード18件</div>
 </div>
 
-<!-- ===== EXECUTIVE SUMMARY ===== -->
+<!-- ===== 2. GROWTH STRATEGY ===== -->
+<h2>成長戦略提言</h2>
+
+<p>データ分析に基づき、以下の5つの重点アクションを提言する。いずれも「登録者1,000名突破」と「YouTube経由の売上最大化」を同時に追求するための施策である。</p>
+
+<div class="strategy-box">
+  <h4><span class="priority-high">最優先</span> 投稿頻度の回復：週2本以上の安定投稿</h4>
+  <p>2025年9月の12本/月をピークに、直近3ヶ月は2〜3本/月に減少。アルゴリズム上、投稿頻度の低下は露出減に直結する。長尺1本+ショート1本の週2本体制を最低ラインとして確立する。</p>
+  <p><strong>期待効果：</strong> 月間再生数 +30〜50%、登録者獲得ペース 2倍</p>
+</div>
+
+<div class="strategy-box">
+  <h4><span class="priority-high">最優先</span> 関連動画流入の改善：サムネイル・タイトルのCTR最適化</h4>
+  <p>関連動画からの流入はわずか1.4%（YouTube平均30〜50%）。サムネイルに「顔+テキスト+色彩コントラスト」を統一し、タイトルに感情トリガー（「衝撃」「必見」「元MBB」）を戦略的に配置する。既にヒットしている動画（対策厨4,390回、売上向上コツ4,021回）のサムネイルパターンを横展開する。</p>
+  <p><strong>期待効果：</strong> 関連動画流入 1.4% → 10%以上、月間+2,000〜3,000再生</p>
+</div>
+
+<div class="strategy-box">
+  <h4><span class="priority-mid">重要</span> リード獲得動線の強化：概要欄CTA最適化</h4>
+  <p>YouTube経由リード18件のうち、概要欄（gaiyouran）経由が14件と大多数を占める。全動画の概要欄テンプレートに「無料相談予約」のCTAを統一配置し、ピン留めコメントにもリンクを設置する。現在の成約率33%（6/18件）、成約単価 ¥215,067は高いため、リード数の増加がそのまま売上に直結する。</p>
+  <p><strong>期待効果：</strong> 月間リード数 2件 → 5件、年間売上 +¥300万以上</p>
+</div>
+
+<div class="strategy-box">
+  <h4><span class="priority-mid">重要</span> 人気動画のシリーズ化・リメイク</h4>
+  <p>Top 15動画のうち10本がケース面接関連。特に「売上向上系」（ER 2.49%）、「ビジネスモデル7選」（ER 4.45%）、「ケース面接成功の鍵」（ER 3.41%）はエンゲージメントが極めて高い。これらをシリーズ化（「業界別ケース面接 Vol.1〜」等）し、再生リストで回遊率を高める。</p>
+  <p><strong>期待効果：</strong> シリーズ動画の再生数 1.5〜2倍、チャンネル回遊率向上</p>
+</div>
+
+<div class="strategy-box">
+  <h4><span class="priority-low">推奨</span> ショート動画の戦略的量産</h4>
+  <p>ショートはTop 15中6本を占めながら、ショート経由の流入はわずか0.6%。長尺動画からの切り出しショートを週2〜3本投稿し、新規視聴者の入口を拡大する。競合「コンサル転職ch」（登録者9,840）もショート戦略で急成長している。</p>
+  <p><strong>期待効果：</strong> ショート経由の登録者 月+20〜30名、認知度向上</p>
+</div>
+
+<hr>
+
+<!-- ===== 3. GROWTH ROADMAP ===== -->
+<h2>成長ロードマップ</h2>
+
+<p>以下の3フェーズで、12ヶ月以内に登録者2,000名・月間売上¥100万以上のチャンネルへ成長させる。</p>
+
+<div class="roadmap">
+  <div class="roadmap-phase">
+    <h4>Phase 1：基盤整備（2026年3〜5月）</h4>
+    <ul>
+      <li>投稿ペースを週2本（長尺1+ショート1）に安定化</li>
+      <li>全89本の既存動画に終了画面・カードを設置</li>
+      <li>サムネイルテンプレートの統一（A/Bテスト実施）</li>
+      <li>概要欄CTAテンプレートの全動画統一適用</li>
+      <li>再生リストを「ケース面接対策」「MBBリアル」「転職ノウハウ」の3軸で整備</li>
+    </ul>
+    <div class="phase-target">目標：登録者 800名 / 月間再生 12,000回 / 月間リード 4件</div>
+  </div>
+
+  <div class="roadmap-phase">
+    <h4>Phase 2：成長加速（2026年6〜8月）</h4>
+    <ul>
+      <li>ショート動画を週3本に増産（長尺切り出し+オリジナル）</li>
+      <li>ケース面接シリーズ化（業界別・お題別の連続コンテンツ）</li>
+      <li>競合チャンネルとのコラボ企画（相互送客）</li>
+      <li>X/note連携による外部流入強化</li>
+      <li>コミュニティ投稿の活用開始（アンケート・お題募集）</li>
+    </ul>
+    <div class="phase-target">目標：登録者 1,200名（収益化達成）/ 月間再生 18,000回 / 月間リード 6件</div>
+  </div>
+
+  <div class="roadmap-phase">
+    <h4>Phase 3：収益最大化（2026年9〜2027年2月）</h4>
+    <ul>
+      <li>YouTube収益化開始（広告収入＋メンバーシップ）</li>
+      <li>リード獲得に最適化したLP・フォーム改善</li>
+      <li>成約動画の特定とリード動線の精緻化</li>
+      <li>ウェビナー・ライブ配信の定期開催</li>
+      <li>法人向けコンテンツ（採用担当向け）の展開</li>
+    </ul>
+    <div class="phase-target">目標：登録者 2,000名 / 月間再生 25,000回 / 月間売上 ¥100万</div>
+  </div>
+</div>
+
+<hr>
+
+<!-- ===== 4. EXECUTIVE SUMMARY ===== -->
 <h2>エグゼクティブサマリー</h2>
 
 <div class="exec-summary">
-<p><strong>現状評価。</strong> 「コンサル転職ch (by Strategists)」は、戦略コンサル転職・ケース面接対策に特化したYouTubeチャンネルである。チャンネル登録者624名、総再生数69,187回、動画89本という規模は、ニッチ特化型チャンネルとしては堅実なスタートであるが、収益化要件（登録者1,000名）未達の段階にある。過去90日間で登録者+99名（純増）、再生数22,883回と成長基調にあり、特に2026年2月は日次平均309回再生と過去最高水準を記録した。</p>
+<p><strong>現状評価。</strong> 「コンサル転職ch (by Strategists)」は、戦略コンサル転職・ケース面接対策に特化したYouTubeチャンネルである。チャンネル登録者624名、過去12ヶ月の総再生数68,795回、動画89本という規模は、ニッチ特化型チャンネルとしては堅実な成長を示しているが、収益化要件（登録者1,000名）未達の段階にある。</p>
 
-<p><strong>最大の強み。</strong> 流入の62%がYouTube検索経由であり、「ケース面接」「戦略コンサル」等の検索需要を的確に捉えている。平均視聴率35.3%はYouTube全体の平均（50%前後）を下回るものの、教育・ハウツー系コンテンツとしては標準的な水準である。ケース面接実践動画やMBB社員の実体験コンテンツは再生数・エンゲージメントともに突出しており、チャンネルの核となるコンテンツ資産が確立されている。</p>
+<p><strong>成長トレンド。</strong> 2025年3月の月間1,550回から2026年2月の8,759回へ、1年間で<strong>月間再生数5.7倍</strong>の成長を達成した。特にQ3（9〜11月）は月平均8,060回と最高水準を記録。直近12ヶ月で登録者+508名を獲得している。</p>
 
-<p><strong>最大の課題。</strong> 関連動画からの流入が全体のわずか1.4%（327回/90日）に留まっており、YouTubeのレコメンドエンジンに乗れていない。登録者ベースの流入（14%）も限定的であり、視聴者のリテンション（再訪率）に改善余地がある。また、月間投稿本数が2025年9月の12本をピークに2〜3本に減少しており、アルゴリズム上の不利を招いている。</p>
+<p><strong>収益実績。</strong> YouTube経由のリード18件から<strong>成約6件・売上¥1,290,400</strong>を創出。成約率33.3%、平均成約単価¥215,067は極めて高い水準であり、YouTubeチャンネルが営業チャネルとして機能していることを証明している。その他購入1件（¥78,000）を含めると、YouTube経由の総売上は¥1,368,400に達する。</p>
 
-<p><strong>成長の鍵。</strong> (1) ショート動画の戦略的活用による露出最大化、(2) 関連動画流入を増やすためのサムネイル・タイトル最適化とシリーズ化、(3) 週2本以上の安定投稿ペースの確立、(4) 既存人気動画のリメイク・シリーズ展開、(5) 外部プラットフォーム（X/note）との連携強化。これらを実行することで、6ヶ月以内の登録者1,000名突破と収益化達成が現実的な目標となる。</p>
+<p><strong>最大のボトルネック。</strong> 関連動画からの流入がわずか1.4%と、YouTubeのレコメンドエンジンに乗れていない。また、投稿頻度が2025年9月の12本/月から直近2〜3本/月に大幅低下しており、アルゴリズム上の不利を招いている。これらの改善がチャンネル成長の鍵を握る。</p>
 </div>
 
-<!-- ===== 1. CHANNEL OVERVIEW ===== -->
-<h2>1. チャンネル概要</h2>
+<hr>
 
-<h3>主要KPI一覧</h3>
+<!-- ===== 5. KPI OVERVIEW ===== -->
+<h2>KPI概要</h2>
 
 <div class="kpi-grid">
   <div class="kpi-card">
     <div class="kpi-label">チャンネル登録者数</div>
     <div class="kpi-value">624</div>
-    <div class="kpi-change positive">+99（過去90日）</div>
+    <div class="kpi-change positive">+508（過去12ヶ月）</div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-label">総再生回数</div>
-    <div class="kpi-value">69,187</div>
+    <div class="kpi-label">年間総再生回数</div>
+    <div class="kpi-value">68,795</div>
     <div class="kpi-sub">動画89本</div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-label">動画1本あたり平均再生</div>
+    <div class="kpi-label">1本あたり平均再生</div>
     <div class="kpi-value">777</div>
     <div class="kpi-sub">中央値 411回</div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-label">過去90日 再生数</div>
-    <div class="kpi-value">22,883</div>
-    <div class="kpi-change positive">日次平均 254回</div>
-  </div>
-  <div class="kpi-card">
-    <div class="kpi-label">過去90日 総視聴時間</div>
-    <div class="kpi-value">56,161分</div>
-    <div class="kpi-sub">≒ 936時間</div>
+    <div class="kpi-label">年間総視聴時間</div>
+    <div class="kpi-value">2,976時間</div>
+    <div class="kpi-sub">178,538分</div>
   </div>
   <div class="kpi-card">
     <div class="kpi-label">平均視聴率</div>
-    <div class="kpi-value">35.3%</div>
-    <div class="kpi-sub">過去90日平均</div>
+    <div class="kpi-value">35.4%</div>
+    <div class="kpi-sub">12ヶ月平均</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">YouTube経由売上</div>
+    <div class="kpi-value">¥136.8万</div>
+    <div class="kpi-change positive">成約6件+他1件</div>
   </div>
 </div>
 
-<p>チャンネル開設から約15ヶ月（最古の動画は2024年12月11日公開）で、89本の動画を投稿し、総再生数69,187回を獲得している。動画1本あたりの平均再生数は777回であるが、上位10本が全体再生数の約40%を占めており、ヒット動画への偏重が見られる。</p>
-
-<p>過去90日間（2025年12月4日〜2026年2月28日）のパフォーマンスを見ると、再生数22,883回（全期間の33%）、視聴時間56,161分（936時間）と、直近期に加速傾向がある。登録者は145名獲得・46名離脱で純増99名であり、1日あたり約1.1名のペースで増加している。</p>
+<div class="kpi-grid">
+  <div class="kpi-card">
+    <div class="kpi-label">直近月 再生数（2月）</div>
+    <div class="kpi-value">8,759</div>
+    <div class="kpi-change positive">前月比 +17.2%</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">直近月 登録者純増</div>
+    <div class="kpi-value">+28</div>
+    <div class="kpi-sub">獲得46 / 離脱18</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">リード転換率</div>
+    <div class="kpi-value">0.026%</div>
+    <div class="kpi-sub">18件 / 68,795再生</div>
+  </div>
+</div>
 
 <hr>
 
-<!-- ===== 2. MONTHLY TREND ===== -->
-<h2>2. 月別トレンド推移</h2>
+<!-- ===== 6. LEAD ANALYSIS ===== -->
+<h2>リード獲得分析</h2>
 
-<h3>日次再生数と視聴時間の推移</h3>
+<p>YouTube経由で獲得したリード18件の詳細分析。チャンネルが「認知→興味→問い合わせ→成約」の営業ファネルとして機能している実態を示す。</p>
 
-<div class="chart-wrapper">
-  <div class="chart-title">図表1：日次再生数推移（過去90日間）</div>
-  <canvas id="chartDailyViews"></canvas>
-  <div class="chart-source">出典：YouTube Analytics API（2025/12/04〜2026/02/28）</div>
+<h3>リード獲得ファネル</h3>
+
+<div class="funnel">
+  <div class="funnel-step">
+    <div class="funnel-num">68,795</div>
+    <div class="funnel-label">年間再生数</div>
+  </div>
+  <div class="funnel-arrow">&rarr;</div>
+  <div class="funnel-step">
+    <div class="funnel-num">18</div>
+    <div class="funnel-label">リード獲得</div>
+  </div>
+  <div class="funnel-arrow">&rarr;</div>
+  <div class="funnel-step">
+    <div class="funnel-num">12</div>
+    <div class="funnel-label">商談可能</div>
+  </div>
+  <div class="funnel-arrow">&rarr;</div>
+  <div class="funnel-step">
+    <div class="funnel-num">7</div>
+    <div class="funnel-label">有料化</div>
+  </div>
 </div>
 
-<div class="chart-wrapper">
-  <div class="chart-title">図表2：月別パフォーマンス比較</div>
-  <canvas id="chartMonthlyComparison"></canvas>
-  <div class="chart-source">出典：YouTube Analytics API 日次データを月別に集計</div>
-</div>
-
-<p>日次再生数は2025年12月時点で200〜300回/日のレンジで推移していたが、2026年2月中旬に新動画の投稿効果もあり400〜500回/日のピークを記録した。特に2月14日（481回）と2月17日（527回）が突出しており、これは新動画「AIでコンサルは潰れるのか？」と「徹底解説・コンサル業界で生き残る秘訣」の投稿日と連動している。</p>
+<h3>ステータス別集計</h3>
 
 <table>
   <thead>
-    <tr><th>月</th><th class="num">再生数</th><th class="num">視聴時間(分)</th><th class="num">平均視聴率</th><th class="num">登録者純増</th><th class="num">日次平均再生</th></tr>
+    <tr><th>ステータス</th><th class="num">件数</th><th class="num">構成比</th><th class="num">売上合計</th><th class="num">平均単価</th></tr>
   </thead>
   <tbody>
-    <tr><td>2025年12月</td><td class="num">6,473</td><td class="num">18,497</td><td class="num">34.3%</td><td class="num">+25</td><td class="num">231</td></tr>
-    <tr><td>2026年1月</td><td class="num">7,404</td><td class="num">19,483</td><td class="num">35.2%</td><td class="num">+34</td><td class="num">239</td></tr>
-    <tr><td>2026年2月</td><td class="num">9,006</td><td class="num">18,181</td><td class="num">36.2%</td><td class="num">+40</td><td class="num">322</td></tr>
+    <tr><td><strong>成約（有料化）</strong></td><td class="num">6</td><td class="num">33.3%</td><td class="num">¥1,290,400</td><td class="num">¥215,067</td></tr>
+    <tr><td>その他購入</td><td class="num">1</td><td class="num">5.6%</td><td class="num">¥78,000</td><td class="num">¥78,000</td></tr>
+    <tr><td>検討中</td><td class="num">2</td><td class="num">11.1%</td><td class="num">&mdash;</td><td class="num">&mdash;</td></tr>
+    <tr><td>日程未確</td><td class="num">3</td><td class="num">16.7%</td><td class="num">&mdash;</td><td class="num">&mdash;</td></tr>
+    <tr><td>NoShow</td><td class="num">2</td><td class="num">11.1%</td><td class="num">&mdash;</td><td class="num">&mdash;</td></tr>
+    <tr><td>失注・失注見込</td><td class="num">2</td><td class="num">11.1%</td><td class="num">&mdash;</td><td class="num">&mdash;</td></tr>
+    <tr><td>実施不可</td><td class="num">2</td><td class="num">11.1%</td><td class="num">&mdash;</td><td class="num">&mdash;</td></tr>
   </tbody>
 </table>
-<div class="table-caption">出典：YouTube Analytics 日次データより集計。視聴率は加重平均。</div>
+<div class="table-caption">出典：leads_detail.csv（YouTube経由リード18件）。有料化合計（成約+その他購入）：7件 / ¥1,368,400。</div>
 
-<p><span class="label-insight">インサイト</span> 3ヶ月間で再生数は月次+19%→+22%と加速傾向にある。2月は再生数が9,006回と12月比で39%増を達成した。一方で視聴時間が2月に微減しているのは、短尺動画（ショート）の比率増加が要因と考えられる。登録者の純増ペースも月次で改善しており、成長モメンタムが確認できる。</p>
+<h3>成約案件の詳細</h3>
+
+<table>
+  <thead>
+    <tr><th>時期</th><th>属性</th><th>流入動画</th><th class="num">売上</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>2025年4月</td><td>既卒</td><td>プロフィール経由</td><td class="num">¥497,000</td></tr>
+    <tr><td>2025年7月</td><td>27卒（学部）早稲田大学</td><td>内定者ディスカッション解説動画</td><td class="num">¥148,000</td></tr>
+    <tr><td>2025年10月</td><td>27卒（院卒）東京理科大学</td><td>「対策厨」動画</td><td class="num">¥99,600</td></tr>
+    <tr><td>2025年10月</td><td>27卒（学部）BC大学</td><td>QBハウスケース面接動画</td><td class="num">¥168,000</td></tr>
+    <tr><td>2025年12月</td><td>28卒（学部）東京科学大学</td><td>概要欄経由</td><td class="num">¥298,000</td></tr>
+    <tr><td>2025年12月</td><td>27卒</td><td>概要欄経由</td><td class="num">¥79,800</td></tr>
+  </tbody>
+</table>
+<div class="table-caption">最高額案件は¥497,000（既卒・2025年4月成約）。27卒の学部・院生が主要ターゲット層。</div>
+
+<h3>月別リード獲得推移</h3>
+
+<div class="chart-wrapper">
+  <div class="chart-title">図表1：月別リード獲得数と売上</div>
+  <canvas id="chartLeadMonthly"></canvas>
+  <div class="chart-source">出典：leads_detail.csv。2025年4月〜2026年2月。</div>
+</div>
+
+<p><span class="label-insight">インサイト</span> 2025年10〜12月にリード獲得が加速（月3〜4件）しているのは、この時期の再生数増加（月8,000回台）と投稿本数の充実（9月12本の効果が遅延反映）に起因する。リード獲得のピーク月と投稿活動のピーク月には約1〜2ヶ月のタイムラグがあることが示唆される。</p>
+
+<h3>流入経路分析</h3>
+
+<table>
+  <thead>
+    <tr><th>流入経路</th><th class="num">件数</th><th>備考</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>概要欄（gaiyouran）リンク</td><td class="num">14</td><td>全リードの78%。最重要CTA配置場所</td></tr>
+    <tr><td>プロフィール（profile）</td><td class="num">2</td><td>チャンネルページ経由</td></tr>
+    <tr><td>タイトル（title）</td><td class="num">1</td><td>動画タイトルから</td></tr>
+    <tr><td>不明</td><td class="num">1</td><td>&mdash;</td></tr>
+  </tbody>
+</table>
+<div class="table-caption">概要欄が圧倒的な主要流入経路。全動画の概要欄CTA統一が最優先施策。</div>
 
 <hr>
 
-<!-- ===== 3. TRAFFIC SOURCE ===== -->
-<h2>3. 流入元分析</h2>
+<!-- ===== 7. MONTHLY PERFORMANCE ===== -->
+<h2>月別パフォーマンス推移（12ヶ月）</h2>
 
 <div class="chart-wrapper">
-  <div class="chart-title">図表3：流入元構成（過去90日間・再生回数ベース）</div>
+  <div class="chart-title">図表2：月別再生数と視聴時間（2025年3月〜2026年2月）</div>
+  <canvas id="chartMonthlyViews"></canvas>
+  <div class="chart-source">出典：YouTube Analytics（analytics_monthly_1y.csv）</div>
+</div>
+
+<div class="chart-wrapper">
+  <div class="chart-title">図表3：月別登録者増減</div>
+  <canvas id="chartMonthlySubs"></canvas>
+  <div class="chart-source">出典：YouTube Analytics（analytics_monthly_1y.csv）</div>
+</div>
+
+<table>
+  <thead>
+    <tr><th>月</th><th class="num">再生数</th><th class="num">視聴時間(分)</th><th class="num">平均視聴率</th><th class="num">登録者純増</th><th class="num">投稿本数</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>2025年3月</td><td class="num">1,550</td><td class="num">5,288</td><td class="num">37.3%</td><td class="num">+33</td><td class="num">5</td></tr>
+    <tr><td>2025年4月</td><td class="num">2,898</td><td class="num">3,709</td><td class="num">30.7%</td><td class="num">+23</td><td class="num">9</td></tr>
+    <tr><td>2025年5月</td><td class="num">3,209</td><td class="num">6,761</td><td class="num">34.7%</td><td class="num">+32</td><td class="num">15</td></tr>
+    <tr><td>2025年6月</td><td class="num">3,446</td><td class="num">8,183</td><td class="num">32.1%</td><td class="num">+39</td><td class="num">6</td></tr>
+    <tr><td>2025年7月</td><td class="num">4,877</td><td class="num">13,753</td><td class="num">36.3%</td><td class="num">+59</td><td class="num">6</td></tr>
+    <tr><td>2025年8月</td><td class="num">5,028</td><td class="num">15,562</td><td class="num">39.8%</td><td class="num">+38</td><td class="num">9</td></tr>
+    <tr><td>2025年9月</td><td class="num">6,941</td><td class="num">18,941</td><td class="num">36.6%</td><td class="num">+69</td><td class="num">12</td></tr>
+    <tr><td>2025年10月</td><td class="num">8,243</td><td class="num">22,854</td><td class="num">38.3%</td><td class="num">+47</td><td class="num">6</td></tr>
+    <tr><td>2025年11月</td><td class="num">8,995</td><td class="num">25,024</td><td class="num">34.0%</td><td class="num">+65</td><td class="num">3</td></tr>
+    <tr><td style="font-weight:600">2025年12月</td><td class="num">7,378</td><td class="num">20,606</td><td class="num">34.9%</td><td class="num">+39</td><td class="num">2</td></tr>
+    <tr><td>2026年1月</td><td class="num">7,471</td><td class="num">19,273</td><td class="num">35.3%</td><td class="num">+36</td><td class="num">2</td></tr>
+    <tr><td>2026年2月</td><td class="num">8,759</td><td class="num">18,584</td><td class="num">35.8%</td><td class="num">+28</td><td class="num">3</td></tr>
+  </tbody>
+</table>
+<div class="table-caption">出典：YouTube Analytics API。投稿本数はyoutube_videos.csvから集計。</div>
+
+<p><span class="label-insight">インサイト</span> 投稿数と再生数の相関は明確である。5月（15本投稿）→7月に再生数が急伸、9月（12本投稿）→10〜11月にピーク到達。一方で12月以降の投稿減少（2〜3本/月）にもかかわらず再生数が7,000〜8,000台を維持しているのは、ストック型コンテンツ（ケース面接対策）が継続的に検索流入を獲得しているためである。</p>
+
+<h3>四半期別推移</h3>
+
+<table>
+  <thead>
+    <tr><th>四半期</th><th class="num">月平均再生</th><th class="num">月平均視聴(分)</th><th class="num">登録者純増計</th><th>前期比</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Q1（3〜5月）</td><td class="num">2,552</td><td class="num">5,253</td><td class="num">+88</td><td>&mdash;</td></tr>
+    <tr><td>Q2（6〜8月）</td><td class="num">4,450</td><td class="num">12,499</td><td class="num">+136</td><td style="color:#1a6b52;font-weight:600">+74.4%</td></tr>
+    <tr><td>Q3（9〜11月）</td><td class="num">8,060</td><td class="num">22,273</td><td class="num">+181</td><td style="color:#1a6b52;font-weight:600">+81.1%</td></tr>
+    <tr><td>Q4（12〜2月）</td><td class="num">7,869</td><td class="num">19,488</td><td class="num">+103</td><td style="color:#c23b22;font-weight:600">-2.4%</td></tr>
+  </tbody>
+</table>
+<div class="table-caption">Q4は投稿頻度の低下により成長が鈍化。投稿頻度の回復が成長再加速の鍵。</div>
+
+<hr>
+
+<!-- ===== 8. TRAFFIC SOURCE ===== -->
+<h2>流入元分析</h2>
+
+<div class="chart-wrapper">
+  <div class="chart-title">図表4：流入元構成（過去90日間・再生回数ベース）</div>
   <canvas id="chartTrafficSource"></canvas>
   <div class="chart-source">出典：YouTube Analytics（2025/12/04〜2026/02/28）</div>
 </div>
@@ -533,873 +880,519 @@
   <tbody>
     <tr><td>YouTube検索</td><td class="num">14,162</td><td class="num">61.9%</td><td>検索SEO戦略が機能</td></tr>
     <tr><td>チャンネル登録者</td><td class="num">3,192</td><td class="num">13.9%</td><td>リピーター基盤あり</td></tr>
-    <tr><td>チャンネルページ</td><td class="num">2,323</td><td class="num">10.2%</td><td>プロフィール経由の流入</td></tr>
+    <tr><td>チャンネルページ</td><td class="num">2,323</td><td class="num">10.2%</td><td>プロフィール経由</td></tr>
     <tr><td>外部URL</td><td class="num">1,157</td><td class="num">5.1%</td><td>SNS・Webサイト連携</td></tr>
-    <tr><td>その他YouTube</td><td class="num">508</td><td class="num">2.2%</td><td>&mdash;</td></tr>
-    <tr><td>リンクなしその他</td><td class="num">576</td><td class="num">2.5%</td><td>&mdash;</td></tr>
     <tr><td>再生リスト</td><td class="num">373</td><td class="num">1.6%</td><td>整備の余地あり</td></tr>
-    <tr><td>関連動画</td><td class="num">327</td><td class="num">1.4%</td><td style="color:#c23b22;font-weight:600">要改善</td></tr>
+    <tr><td>関連動画</td><td class="num">327</td><td class="num">1.4%</td><td style="color:#c23b22;font-weight:600">要改善（業界平均30〜50%）</td></tr>
     <tr><td>ショート</td><td class="num">143</td><td class="num">0.6%</td><td>拡大ポテンシャル大</td></tr>
-    <tr><td>通知</td><td class="num">32</td><td class="num">0.1%</td><td>登録者のベル設定要促進</td></tr>
-    <tr><td>終了画面</td><td class="num">20</td><td class="num">0.1%</td><td>終了画面の設定見直し</td></tr>
-    <tr><td>ハッシュタグ</td><td class="num">6</td><td class="num">0.0%</td><td>&mdash;</td></tr>
+    <tr><td>その他</td><td class="num">1,206</td><td class="num">5.3%</td><td>&mdash;</td></tr>
   </tbody>
 </table>
-<div class="table-caption">出典：YouTube Analytics トラフィックソースレポート。SHORTS_CONTENT_LINKS (63回) はショートに含めて集計。</div>
+<div class="table-caption">出典：YouTube Analytics トラフィックソースレポート（過去90日間）。</div>
 
-<h3>流入元の評価</h3>
+<p><span class="label-fact">強み</span> YouTube検索が62%を占める構造は、ニッチ特化チャンネルとして理想的。「ケース面接」「戦略コンサル 転職」等の検索需要を的確に捉えている。一般チャンネルの検索流入比率（20〜30%）の約2倍。</p>
 
-<p><span class="label-fact">強み</span> YouTube検索が62%を占めるのは、ニッチ特化チャンネルとして理想的な構造である。「ケース面接」「戦略コンサル 転職」等の検索キーワードに対して、タイトルと内容が適切にマッチしている証左である。一般的なYouTubeチャンネルでは検索流入は20〜30%程度であり、本チャンネルは検索に2倍以上強い。</p>
-
-<p><span class="label-insight">最大の課題</span> <strong>関連動画からの流入がわずか1.4%（327回）</strong>は、深刻な機会損失である。YouTube全体では関連動画・おすすめが30〜50%を占めるのが一般的であり、本チャンネルはYouTubeのレコメンドエンジンから事実上「無視」されている状態にある。これは、(1) サムネイルのCTRが低い、(2) 動画の視聴維持率がレコメンド基準を満たしていない、(3) 動画同士の関連性が弱い、のいずれかが原因と考えられる。</p>
-
-<p><span class="label-insight">伸びしろ</span> 終了画面からの流入がわずか20回（0.1%）であることは、終了画面の設定が不十分であることを示唆する。全動画に適切な終了画面（次の動画への誘導）を設定するだけで、チャンネル内回遊率を大幅に改善できる。</p>
+<p><span class="label-insight">最大の課題</span> <strong>関連動画からの流入1.4%</strong>はYouTube全体平均（30〜50%）の1/20以下。サムネイルCTRの改善とシリーズ化により、最低10%以上への引き上げが必要。月間+2,000〜3,000再生の上積みが期待できる。</p>
 
 <hr>
 
-<!-- ===== 4. TOP VIDEOS ===== -->
-<h2>4. 上位動画分析</h2>
+<!-- ===== 9. VIDEO ANALYSIS ===== -->
+<h2>動画別分析（上位15本）</h2>
 
-<h3>再生数 Top 15（全期間）</h3>
+<div class="video-grid">
+  <div class="video-card">
+    <img class="thumb" src="https://img.youtube.com/vi/GEVDG0dnTMo/maxresdefault.jpg" alt="" onerror="this.src='https://img.youtube.com/vi/GEVDG0dnTMo/hqdefault.jpg'">
+    <div class="card-body">
+      <span class="card-rank">#1</span>
+      <div class="card-title">【ケース面接】対策厨はどう評価されるのか？</div>
+      <div class="card-stats"><strong>4,390回</strong> / いいね26 / ER 0.59%<br>33秒 / 2025/08/14</div>
+    </div>
+  </div>
 
-<table>
-  <thead>
-    <tr><th>#</th><th>タイトル</th><th class="num">再生数</th><th class="num">いいね</th><th class="num">コメント</th><th class="num">ER</th><th>公開日</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>1</td><td>【ケース面接】対策厨はどう評価されるのか？</td><td class="num">4,390</td><td class="num">26</td><td class="num">0</td><td class="num">0.59%</td><td>2025/08/14</td></tr>
-    <tr><td>2</td><td>売上向上系ケース面接攻略のコツ【戦略コンサル志望者必見！】</td><td class="num">4,021</td><td class="num">92</td><td class="num">8</td><td class="num">2.49%</td><td>2024/12/11</td></tr>
-    <tr><td>3</td><td>【ケース対策】戦コン内定者 ケース〇〇問解きました</td><td class="num">3,581</td><td class="num">24</td><td class="num">0</td><td class="num">0.67%</td><td>2025/05/18</td></tr>
-    <tr><td>4</td><td>【毎日14時間労働】戦略コンサル激務の一年目</td><td class="num">2,882</td><td class="num">25</td><td class="num">1</td><td class="num">0.90%</td><td>2025/08/16</td></tr>
-    <tr><td>5</td><td>【元戦コン社員が語る】McKinsey社員の特徴</td><td class="num">2,850</td><td class="num">12</td><td class="num">0</td><td class="num">0.42%</td><td>2025/09/26</td></tr>
-    <tr><td>6</td><td>ケース面接で個社名が出た場合、○○を意識しろ！</td><td class="num">2,645</td><td class="num">18</td><td class="num">0</td><td class="num">0.68%</td><td>2025/03/30</td></tr>
-    <tr><td>7</td><td>【ケース面接成功の鍵】売上向上ケースは最初に何を考えるべきか</td><td class="num">2,138</td><td class="num">71</td><td class="num">2</td><td class="num">3.41%</td><td>2025/07/12</td></tr>
-    <tr><td>8</td><td>【ケース面接実践】戦略コンサル元面接官が売上向上のお題を徹底解説</td><td class="num">1,999</td><td class="num">48</td><td class="num">1</td><td class="num">2.45%</td><td>2025/10/25</td></tr>
-    <tr><td>9</td><td>【必見】ケース面接で最初に考えるべきこと</td><td class="num">1,865</td><td class="num">27</td><td class="num">0</td><td class="num">1.45%</td><td>2025/08/20</td></tr>
-    <tr><td>10</td><td>【元MBB社員が本音回答】マッキンゼー・ボスコン・ベインの選考の違いは？</td><td class="num">1,756</td><td class="num">25</td><td class="num">3</td><td class="num">1.59%</td><td>2025/07/26</td></tr>
-    <tr><td>11</td><td>【スケジュール大公開】MBB社員のリアルな1日</td><td class="num">1,665</td><td class="num">21</td><td class="num">4</td><td class="num">1.50%</td><td>2025/09/07</td></tr>
-    <tr><td>12</td><td>【戦略コンサル】アベイラブル期間の過ごし方</td><td class="num">1,491</td><td class="num">7</td><td class="num">0</td><td class="num">0.47%</td><td>2025/07/04</td></tr>
-    <tr><td>13</td><td>【2025年最新】現役戦コン社員が直近のコンサル採用動向を徹底解説</td><td class="num">1,426</td><td class="num">17</td><td class="num">4</td><td class="num">1.47%</td><td>2025/08/02</td></tr>
-    <tr><td>14</td><td>ジョブ落ちする人の特徴【戦略コンサル内定者が教える】</td><td class="num">1,339</td><td class="num">37</td><td class="num">1</td><td class="num">2.84%</td><td>2024/12/21</td></tr>
-    <tr><td>15</td><td>ケース面接で使えるビジネスモデル7選【コンサル志望者必見！】</td><td class="num">1,304</td><td class="num">57</td><td class="num">1</td><td class="num">4.45%</td><td>2025/01/08</td></tr>
-  </tbody>
-</table>
-<div class="table-caption">ER（エンゲージメント率）＝（いいね＋コメント）÷ 再生数 × 100。出典：YouTube Data API v3。</div>
+  <div class="video-card">
+    <img class="thumb" src="https://img.youtube.com/vi/AlfEw3Rx898/maxresdefault.jpg" alt="" onerror="this.src='https://img.youtube.com/vi/AlfEw3Rx898/hqdefault.jpg'">
+    <div class="card-body">
+      <span class="card-rank">#2</span>
+      <div class="card-title">売上向上系ケース面接攻略のコツ【戦略コンサル志望者必見！】</div>
+      <div class="card-stats"><strong>4,021回</strong> / いいね92 / ER 2.49%<br>15分9秒 / 2024/12/11</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <img class="thumb" src="https://img.youtube.com/vi/v9wka0Ao61I/maxresdefault.jpg" alt="" onerror="this.src='https://img.youtube.com/vi/v9wka0Ao61I/hqdefault.jpg'">
+    <div class="card-body">
+      <span class="card-rank">#3</span>
+      <div class="card-title">【ケース対策】戦コン内定者 ケース○○問解きました</div>
+      <div class="card-stats"><strong>3,581回</strong> / いいね24 / ER 0.67%<br>40秒 / 2025/05/18</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <img class="thumb" src="https://img.youtube.com/vi/-6-GQ-xlGfw/maxresdefault.jpg" alt="" onerror="this.src='https://img.youtube.com/vi/-6-GQ-xlGfw/hqdefault.jpg'">
+    <div class="card-body">
+      <span class="card-rank">#4</span>
+      <div class="card-title">【毎日14時間労働】戦略コンサル激務の一年目</div>
+      <div class="card-stats"><strong>2,882回</strong> / いいね25 / ER 0.90%<br>8分13秒 / 2025/08/16</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <img class="thumb" src="https://img.youtube.com/vi/swa_kAeGFE0/maxresdefault.jpg" alt="" onerror="this.src='https://img.youtube.com/vi/swa_kAeGFE0/hqdefault.jpg'">
+    <div class="card-body">
+      <span class="card-rank">#5</span>
+      <div class="card-title">【元戦コン社員が語る】McKinsey社員の特徴</div>
+      <div class="card-stats"><strong>2,850回</strong> / いいね12 / ER 0.42%<br>25秒 / 2025/09/26</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <img class="thumb" src="https://img.youtube.com/vi/ldxJmRaN2fk/maxresdefault.jpg" alt="" onerror="this.src='https://img.youtube.com/vi/ldxJmRaN2fk/hqdefault.jpg'">
+    <div class="card-body">
+      <span class="card-rank">#6</span>
+      <div class="card-title">ケース面接で個社名が出た場合、○○を意識しろ！</div>
+      <div class="card-stats"><strong>2,645回</strong> / いいね18 / ER 0.68%<br>1分6秒 / 2025/03/30</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <img class="thumb" src="https://img.youtube.com/vi/nWloS6VE4iA/maxresdefault.jpg" alt="" onerror="this.src='https://img.youtube.com/vi/nWloS6VE4iA/hqdefault.jpg'">
+    <div class="card-body">
+      <span class="card-rank">#7</span>
+      <div class="card-title">【ケース面接成功の鍵】売上向上ケースは最初に何を考えるべきか</div>
+      <div class="card-stats"><strong>2,138回</strong> / いいね71 / ER 3.41%<br>9分19秒 / 2025/07/12</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <img class="thumb" src="https://img.youtube.com/vi/juLn_RETWao/maxresdefault.jpg" alt="" onerror="this.src='https://img.youtube.com/vi/juLn_RETWao/hqdefault.jpg'">
+    <div class="card-body">
+      <span class="card-rank">#8</span>
+      <div class="card-title">【ケース面接実践】戦略コンサル元面接官が売上向上のお題を徹底解説</div>
+      <div class="card-stats"><strong>1,999回</strong> / いいね48 / ER 2.45%<br>14分56秒 / 2025/10/25</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <img class="thumb" src="https://img.youtube.com/vi/v9-c1BBYgDs/maxresdefault.jpg" alt="" onerror="this.src='https://img.youtube.com/vi/v9-c1BBYgDs/hqdefault.jpg'">
+    <div class="card-body">
+      <span class="card-rank">#9</span>
+      <div class="card-title">【必見】ケース面接で最初に考えるべきこと</div>
+      <div class="card-stats"><strong>1,865回</strong> / いいね27 / ER 1.45%<br>47秒 / 2025/08/20</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <img class="thumb" src="https://img.youtube.com/vi/id7gez2u0cA/maxresdefault.jpg" alt="" onerror="this.src='https://img.youtube.com/vi/id7gez2u0cA/hqdefault.jpg'">
+    <div class="card-body">
+      <span class="card-rank">#10</span>
+      <div class="card-title">【元MBB社員が本音回答】マッキンゼー・ボスコン・ベインの選考の違い</div>
+      <div class="card-stats"><strong>1,756回</strong> / いいね25 / ER 1.59%<br>12分36秒 / 2025/07/26</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <img class="thumb" src="https://img.youtube.com/vi/MZJo_3VX908/maxresdefault.jpg" alt="" onerror="this.src='https://img.youtube.com/vi/MZJo_3VX908/hqdefault.jpg'">
+    <div class="card-body">
+      <span class="card-rank">#11</span>
+      <div class="card-title">【スケジュール大公開】MBB社員のリアルな1日</div>
+      <div class="card-stats"><strong>1,665回</strong> / いいね21 / ER 1.50%<br>11分35秒 / 2025/09/07</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <img class="thumb" src="https://img.youtube.com/vi/TvFq-uIukL8/maxresdefault.jpg" alt="" onerror="this.src='https://img.youtube.com/vi/TvFq-uIukL8/hqdefault.jpg'">
+    <div class="card-body">
+      <span class="card-rank">#12</span>
+      <div class="card-title">【戦略コンサル】アベイラブル期間の過ごし方</div>
+      <div class="card-stats"><strong>1,491回</strong> / いいね7 / ER 0.47%<br>24秒 / 2025/07/04</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <img class="thumb" src="https://img.youtube.com/vi/eK6lcX-GVBA/maxresdefault.jpg" alt="" onerror="this.src='https://img.youtube.com/vi/eK6lcX-GVBA/hqdefault.jpg'">
+    <div class="card-body">
+      <span class="card-rank">#13</span>
+      <div class="card-title">【2025年最新】現役戦コン社員が直近のコンサル採用動向を徹底解説</div>
+      <div class="card-stats"><strong>1,426回</strong> / いいね17 / ER 1.47%<br>10分33秒 / 2025/08/02</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <img class="thumb" src="https://img.youtube.com/vi/ujUeGM0fF7o/maxresdefault.jpg" alt="" onerror="this.src='https://img.youtube.com/vi/ujUeGM0fF7o/hqdefault.jpg'">
+    <div class="card-body">
+      <span class="card-rank">#14</span>
+      <div class="card-title">ジョブ落ちする人の特徴【戦略コンサル内定者が教える】</div>
+      <div class="card-stats"><strong>1,339回</strong> / いいね37 / ER 2.84%<br>10分7秒 / 2024/12/21</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <img class="thumb" src="https://img.youtube.com/vi/kPuQ_XgIeVc/maxresdefault.jpg" alt="" onerror="this.src='https://img.youtube.com/vi/kPuQ_XgIeVc/hqdefault.jpg'">
+    <div class="card-body">
+      <span class="card-rank">#15</span>
+      <div class="card-title">ケース面接で使えるビジネスモデル7選【コンサル志望者必見！】</div>
+      <div class="card-stats"><strong>1,304回</strong> / いいね57 / ER 4.45%<br>11分3秒 / 2025/01/08</div>
+    </div>
+  </div>
+</div>
 
 <h3>ヒット動画の法則性</h3>
 
-<p>上位15本を分析すると、以下の明確なパターンが浮かび上がる。</p>
-
 <ol>
-  <li><strong>ケース面接コンテンツが圧倒的。</strong> Top 15のうち10本がケース面接に直接関連する動画であり、チャンネルの核心的価値である。「売上向上系」「対策厨」「ケースの最初に考えるべきこと」等のキーワードが検索と親和性が高い。</li>
-  <li><strong>ショート動画の破壊力。</strong> #1（33秒）、#3（40秒）、#5（25秒）、#6（1分6秒）、#9（47秒）、#12（24秒）と、Top 15中6本がショート〜1分以内の短尺動画である。短尺は「気軽に見られる」ため再生数を稼ぎやすい。</li>
-  <li><strong>エンゲージメント率のばらつき。</strong> ER最高は#15の4.45%（ビジネスモデル7選）で、ER最低は#5の0.42%（McKinsey社員の特徴・ショート）。ショート動画はERが低く、長尺の教育コンテンツはERが高い傾向がある。</li>
-  <li><strong>「実体験」「ぶっちゃけ」要素が効く。</strong> MBB社員の実体験、元面接官の視点、14時間労働の激務など、リアルな体験談コンテンツがバイラル力を持つ。</li>
+  <li><strong>ケース面接コンテンツが圧倒的。</strong> Top 15のうち10本がケース面接に直接関連。「売上向上系」「対策厨」「ケースの最初に考えるべきこと」等のキーワードが検索需要と高い親和性を持つ。</li>
+  <li><strong>ショート動画の破壊力。</strong> Top 15中6本がショート〜1分以内。短尺は再生数を稼ぎやすいが、ERは低い傾向（平均0.55%）。</li>
+  <li><strong>長尺×高ERの黄金パターン。</strong> 「ビジネスモデル7選」（ER 4.45%）、「ケース面接成功の鍵」（ER 3.41%）、「売上向上コツ」（ER 2.49%）は長尺でありながら高エンゲージメント。シリーズ化の最有力候補。</li>
+  <li><strong>「実体験」「元MBB」要素がバイラル力を持つ。</strong> MBB社員のリアル、14時間労働の激務など、体験談コンテンツが安定的にヒット。</li>
 </ol>
 
 <hr>
 
-<!-- ===== 5. PUBLISHING FREQUENCY ===== -->
-<h2>5. 投稿頻度と再生数の関係</h2>
+<!-- ===== 10. COMPETITIVE ANALYSIS ===== -->
+<h2>競合比較分析</h2>
+
+<p>コンサル転職・ケース面接対策領域のYouTubeチャンネル4社との比較分析。</p>
 
 <div class="chart-wrapper">
-  <div class="chart-title">図表4：月別投稿本数と総再生数</div>
-  <canvas id="chartPublishing"></canvas>
-  <div class="chart-source">出典：YouTube Data API v3。再生数は全期間累計（公開日からの通算）。</div>
+  <div class="chart-title">図表5：登録者数比較</div>
+  <canvas id="chartCompSubs"></canvas>
+  <div class="chart-source">出典：YouTube Data API（competitors.json）。2026年3月時点。</div>
 </div>
 
 <table>
   <thead>
-    <tr><th>月</th><th class="num">投稿本数</th><th class="num">総再生数</th><th class="num">1本あたり平均</th></tr>
+    <tr><th>チャンネル</th><th class="num">登録者</th><th class="num">総再生数</th><th class="num">動画数</th><th class="num">再生/本</th><th class="num">再生/登録者</th></tr>
   </thead>
   <tbody>
-    <tr><td>2024年12月</td><td class="num">6</td><td class="num">8,987</td><td class="num">1,498</td></tr>
-    <tr><td>2025年1月</td><td class="num">4</td><td class="num">2,816</td><td class="num">704</td></tr>
-    <tr><td>2025年2月</td><td class="num">1</td><td class="num">1,102</td><td class="num">1,102</td></tr>
-    <tr><td>2025年3月</td><td class="num">5</td><td class="num">4,405</td><td class="num">881</td></tr>
-    <tr><td>2025年4月</td><td class="num">9</td><td class="num">3,424</td><td class="num">380</td></tr>
-    <tr><td>2025年5月</td><td class="num">15</td><td class="num">10,146</td><td class="num">676</td></tr>
-    <tr><td>2025年6月</td><td class="num">6</td><td class="num">3,016</td><td class="num">503</td></tr>
-    <tr><td>2025年7月</td><td class="num">6</td><td class="num">7,228</td><td class="num">1,205</td></tr>
-    <tr><td>2025年8月</td><td class="num">9</td><td class="num">12,267</td><td class="num">1,363</td></tr>
-    <tr><td>2025年9月</td><td class="num">12</td><td class="num">9,708</td><td class="num">809</td></tr>
-    <tr><td>2025年10月</td><td class="num">6</td><td class="num">3,483</td><td class="num">581</td></tr>
-    <tr><td>2025年11月</td><td class="num">3</td><td class="num">907</td><td class="num">302</td></tr>
-    <tr><td>2025年12月</td><td class="num">2</td><td class="num">844</td><td class="num">422</td></tr>
-    <tr><td>2026年1月</td><td class="num">2</td><td class="num">454</td><td class="num">227</td></tr>
-    <tr><td>2026年2月</td><td class="num">3</td><td class="num">537</td><td class="num">179</td></tr>
+    <tr style="font-weight:600;background:#f9f9f9">
+      <td>Strategists</td>
+      <td class="num">624</td>
+      <td class="num">69,187</td>
+      <td class="num">89</td>
+      <td class="num">777</td>
+      <td class="num">110.9</td>
+    </tr>
+    <tr>
+      <td>コンサル転職・就職ch</td>
+      <td class="num">9,840</td>
+      <td class="num">2,092,750</td>
+      <td class="num">433</td>
+      <td class="num">4,833</td>
+      <td class="num">212.7</td>
+    </tr>
+    <tr>
+      <td>ケース面接.com</td>
+      <td class="num">1,450</td>
+      <td class="num">66,497</td>
+      <td class="num">68</td>
+      <td class="num">978</td>
+      <td class="num">45.9</td>
+    </tr>
+    <tr>
+      <td>コンサルへ行こう!</td>
+      <td class="num">1,930</td>
+      <td class="num">1,504,471</td>
+      <td class="num">354</td>
+      <td class="num">4,249</td>
+      <td class="num">779.5</td>
+    </tr>
+    <tr>
+      <td>外資就活チャンネル</td>
+      <td class="num">8,240</td>
+      <td class="num">1,367,886</td>
+      <td class="num">429</td>
+      <td class="num">3,189</td>
+      <td class="num">166.0</td>
+    </tr>
   </tbody>
 </table>
-<div class="table-caption">再生数は各動画の全期間累計再生数を公開月ごとに集計。直近月ほど累積期間が短いため再生数は低く表示される。</div>
-
-<p><span class="label-insight">インサイト</span> 投稿頻度と再生数には正の相関が見られるが、それ以上に<strong>コンテンツの質</strong>が再生数を決定する。2025年8月は9本投稿で12,267回と1本あたり平均1,363回を記録した。これは「ケース面接 対策厨」（4,390回）や「戦略コンサル激務の一年目」（2,882回）といったバイラルポテンシャルの高いコンテンツがあったためである。一方、2025年4月は9本投稿で3,424回（1本平均380回）と低調であり、量だけでは成果に結びつかないことを示している。</p>
-
-<p>2025年11月以降、投稿頻度が月2〜3本に減少している点は懸念材料である。YouTubeのアルゴリズムは投稿頻度の高いチャンネルを優遇する傾向があり、週1本以上の投稿ペースを維持することが推奨される。</p>
-
-<hr>
-
-<!-- ===== 6. WATCH TIME & RETENTION ===== -->
-<h2>6. 視聴時間・視聴率分析</h2>
+<div class="table-caption">出典：YouTube Data API / competitors.json。Strategistsの総再生数はyoutube_videos.csvの合計値を使用。</div>
 
 <div class="chart-wrapper">
-  <div class="chart-title">図表5：日次 平均視聴率の推移（過去90日間）</div>
-  <canvas id="chartRetention"></canvas>
-  <div class="chart-source">出典：YouTube Analytics API。averageViewPercentage は動画長に対する平均視聴割合。</div>
+  <div class="chart-title">図表6：動画1本あたり再生効率</div>
+  <canvas id="chartCompEfficiency"></canvas>
+  <div class="chart-source">出典：YouTube Data API。再生数 &divide; 動画本数で算出。</div>
 </div>
 
-<h3>視聴率の分析</h3>
+<h3>競合ポジショニング分析</h3>
 
-<p>過去90日間の平均視聴率は<strong>35.3%</strong>で推移している。日次ベースでは26%〜44%のレンジで変動があり、ショート動画の再生が増える日は全体の視聴率が上振れする傾向がある（ショート動画は最後まで視聴されやすいため）。</p>
+<p><span class="label-fact">ファクト</span> Strategistsは登録者数では最小規模（624名）だが、動画本数あたりの再生効率（777回/本）は「ケース面接.com」（978回/本）に次ぐ水準であり、89本という少ない投稿数に対して効率的にリーチしている。</p>
 
-<table>
-  <thead>
-    <tr><th>指標</th><th class="num">値</th><th>評価</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>平均視聴率（90日）</td><td class="num">35.3%</td><td>教育系として標準的</td></tr>
-    <tr><td>平均視聴時間（90日）</td><td class="num">181秒（約3分）</td><td>短尺〜中尺の混合</td></tr>
-    <tr><td>1日あたり平均視聴時間</td><td class="num">624分（10.4時間）</td><td>成長余地あり</td></tr>
-    <tr><td>視聴者1回あたりの視聴時間</td><td class="num">2.45分</td><td>中尺動画は改善余地</td></tr>
-  </tbody>
-</table>
-<div class="table-caption">出典：YouTube Analytics 日次データから算出。</div>
+<p><span class="label-insight">差別化ポイント</span> 競合最大手「コンサル転職ch」（9,840名）は433本と圧倒的な動画本数で支配的ポジションを確立。一方、Strategistsは「元MBB社員のリアル体験」「プロ講師によるケース面接実演」という、競合が真似しにくい独自コンテンツで差別化している。再生/登録者比率110.9は、動画が登録者以外にも広くリーチしている証左。</p>
 
-<h3>動画尺別パフォーマンス</h3>
-
-<p>動画の尺（Duration）とパフォーマンスの関係を分析すると、以下の傾向が明確である。</p>
-
-<table>
-  <thead>
-    <tr><th>動画尺カテゴリ</th><th class="num">本数</th><th class="num">平均再生数</th><th class="num">平均いいね</th><th class="num">平均ER</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>ショート（60秒以下）</td><td class="num">30</td><td class="num">819</td><td class="num">5.7</td><td class="num">0.89%</td></tr>
-    <tr><td>短尺（1〜5分）</td><td class="num">5</td><td class="num">320</td><td class="num">5.8</td><td class="num">2.06%</td></tr>
-    <tr><td>中尺（5〜10分）</td><td class="num">28</td><td class="num">696</td><td class="num">14.5</td><td class="num">2.45%</td></tr>
-    <tr><td>長尺（10〜15分）</td><td class="num">23</td><td class="num">877</td><td class="num">18.4</td><td class="num">2.58%</td></tr>
-    <tr><td>超長尺（15分以上）</td><td class="num">3</td><td class="num">685</td><td class="num">12.0</td><td class="num">1.90%</td></tr>
-  </tbody>
-</table>
-<div class="table-caption">PT形式のDurationから秒数に変換して分類。ER＝（いいね＋コメント）÷ 再生数。</div>
-
-<p><span class="label-insight">インサイト</span> ショート動画は再生数では平均819回と健闘するが、エンゲージメントは低い（ER 0.89%）。一方、10〜15分の長尺動画が再生数（877回）とER（2.58%）の両方で最も高いパフォーマンスを示している。<strong>理想的な戦略は「ショートで集客 → 長尺で深い学びを提供 → 登録者化」</strong>という二段構えのファネルである。</p>
+<p><span class="label-insight">成長余地</span> 「ケース面接.com」（1,450名・68本）が最も近い競合であり、動画数も近い。Strategistsが投稿ペースを維持し100本を超えれば、登録者数で追い抜くことは十分に可能。「コンサルへ行こう!」（1,930名）は再生/登録者=779.5と突出して高く、エバーグリーンコンテンツの参考になる。</p>
 
 <hr>
 
-<!-- ===== 7. INDUSTRY COMPARISON ===== -->
-<h2>7. 競合・業界比較</h2>
-
-<h3>YouTube平均値との比較</h3>
+<!-- ===== 11. VIEW RATE & WATCH TIME ===== -->
+<h2>視聴率・視聴時間分析</h2>
 
 <div class="chart-wrapper">
-  <div class="chart-title">図表6：主要指標のYouTube平均との比較</div>
-  <canvas id="chartBenchmark"></canvas>
-  <div class="chart-source">YouTube平均値は各種パブリックデータおよび業界レポートに基づく参考値。</div>
+  <div class="chart-title">図表7：月別平均視聴率と平均視聴時間の推移</div>
+  <canvas id="chartViewRate"></canvas>
+  <div class="chart-source">出典：YouTube Analytics（analytics_monthly_1y.csv）。視聴率はaverageViewPercentage、視聴時間はaverageViewDuration（秒）。</div>
 </div>
 
 <table>
   <thead>
-    <tr><th>指標</th><th class="num">本チャンネル</th><th class="num">YouTube平均</th><th class="num">教育系平均</th><th>評価</th></tr>
+    <tr><th>月</th><th class="num">平均視聴率(%)</th><th class="num">平均視聴時間(秒)</th><th class="num">再生あたり視聴(分)</th><th>傾向</th></tr>
   </thead>
   <tbody>
-    <tr><td>エンゲージメント率</td><td class="num">1.7%</td><td class="num">1.5〜3.0%</td><td class="num">2.0〜4.0%</td><td>やや低い</td></tr>
-    <tr><td>平均視聴率</td><td class="num">35.3%</td><td class="num">50〜60%</td><td class="num">30〜40%</td><td>教育系として標準</td></tr>
-    <tr><td>検索流入比率</td><td class="num">62%</td><td class="num">15〜25%</td><td class="num">25〜40%</td><td style="color:#1a6b52;font-weight:600">非常に強い</td></tr>
-    <tr><td>関連動画流入比率</td><td class="num">1.4%</td><td class="num">30〜50%</td><td class="num">20〜35%</td><td style="color:#c23b22;font-weight:600">極めて弱い</td></tr>
-    <tr><td>登録者→再生比率</td><td class="num">10.3回/日*</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td>登録者の4割がアクティブ</td></tr>
-    <tr><td>いいね率（対再生数）</td><td class="num">1.5%</td><td class="num">2〜4%</td><td class="num">2.5〜5%</td><td>改善余地あり</td></tr>
+    <tr><td>2025年3月</td><td class="num">37.3</td><td class="num">234</td><td class="num">3.41</td><td>&mdash;</td></tr>
+    <tr><td>2025年4月</td><td class="num">30.7</td><td class="num">137</td><td class="num">1.28</td><td style="color:#c23b22">ショート増</td></tr>
+    <tr><td>2025年5月</td><td class="num">34.7</td><td class="num">174</td><td class="num">2.11</td><td>&mdash;</td></tr>
+    <tr><td>2025年6月</td><td class="num">32.1</td><td class="num">172</td><td class="num">2.38</td><td>&mdash;</td></tr>
+    <tr><td>2025年7月</td><td class="num">36.3</td><td class="num">198</td><td class="num">2.82</td><td style="color:#1a6b52">長尺効果</td></tr>
+    <tr><td>2025年8月</td><td class="num">39.8</td><td class="num">214</td><td class="num">3.10</td><td style="color:#1a6b52;font-weight:600">最高視聴率</td></tr>
+    <tr><td>2025年9月</td><td class="num">36.6</td><td class="num">192</td><td class="num">2.73</td><td>&mdash;</td></tr>
+    <tr><td>2025年10月</td><td class="num">38.3</td><td class="num">195</td><td class="num">2.77</td><td>&mdash;</td></tr>
+    <tr><td>2025年11月</td><td class="num">34.0</td><td class="num">192</td><td class="num">2.78</td><td>&mdash;</td></tr>
+    <tr><td>2025年12月</td><td class="num">34.9</td><td class="num">196</td><td class="num">2.79</td><td>&mdash;</td></tr>
+    <tr><td>2026年1月</td><td class="num">35.3</td><td class="num">185</td><td class="num">2.58</td><td>&mdash;</td></tr>
+    <tr><td>2026年2月</td><td class="num">35.8</td><td class="num">158</td><td class="num">2.12</td><td style="color:#c23b22">ショート増</td></tr>
   </tbody>
 </table>
-<div class="table-caption">* 登録者からの日次再生（3,192回÷87日≒37回/日）÷ 登録者数624人 ≒ 5.9%の日次到達率。YouTube平均値は Tubular Labs, Social Blade, Pew Research Center の各種レポートを参照した参考値。</div>
+<div class="table-caption">再生あたり視聴(分) = estimatedMinutesWatched &divide; views。</div>
 
-<h3>同規模チャンネルとの比較</h3>
+<p><span class="label-insight">インサイト</span> 平均視聴率は30.7〜39.8%のレンジで推移しており、12ヶ月平均35.4%。YouTube全体の平均（50%前後）を下回るが、教育・ハウツー系コンテンツとしては標準的。2025年8月の39.8%がピークで、この月は長尺の高品質コンテンツ（「ケース面接成功の鍵」「MBBの選考の違い」等）が集中投稿された時期と一致する。</p>
 
-<p>登録者500〜1,000人規模のビジネス教育系YouTubeチャンネルとの比較において、本チャンネルの特徴は以下の通りである。</p>
+<p>2026年2月の平均視聴時間が158秒に低下しているのは、ショート動画（「AIでコンサルは潰れるのか？」等の短尺）の比率増加が要因。ショートは再生数には貢献するが、視聴時間指標を下押しするため、長尺コンテンツとのバランスが重要である。</p>
 
-<ul>
-  <li><strong>検索流入の突出：</strong>同規模チャンネルの検索流入は通常20〜30%であり、62%は業界平均の2〜3倍。「戦略コンサル」「ケース面接」というニッチキーワードの検索ボリュームを独占的に獲得している。</li>
-  <li><strong>関連動画の弱さ：</strong>同規模チャンネルでも関連動画は10〜20%を占めるのが一般的。1.4%は明確に平均以下であり、最優先の改善ポイント。</li>
-  <li><strong>動画1本あたりの再生数：</strong>平均777回は登録者数624人に対して健全な水準（登録者比124%）。同規模では登録者比50〜100%が一般的であり、検索流入の貢献が大きい。</li>
-  <li><strong>投稿頻度の低下：</strong>成長期（2025年5月・9月）には月10本以上を投稿していたが、直近は月2〜3本に減少。同規模の成長チャンネルは概ね週1〜2本（月4〜8本）を維持している。</li>
-</ul>
-
-<hr>
-
-<!-- ===== 8. ENGAGEMENT ANALYSIS ===== -->
-<h2>8. エンゲージメント詳細分析</h2>
-
-<div class="chart-wrapper">
-  <div class="chart-title">図表7：日次エンゲージメント推移（いいね・シェア・コメント）</div>
-  <canvas id="chartEngagement"></canvas>
-  <div class="chart-source">出典：YouTube Analytics API（2025/12/04〜2026/02/28）</div>
-</div>
-
-<h3>エンゲージメント指標の詳細</h3>
-
-<table>
-  <thead>
-    <tr><th>指標</th><th class="num">90日合計</th><th class="num">日次平均</th><th class="num">対再生数比率</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>いいね数</td><td class="num" id="totalLikes">286</td><td class="num" id="avgLikes">3.3</td><td class="num" id="likeRate">1.25%</td></tr>
-    <tr><td>シェア数</td><td class="num" id="totalShares">108</td><td class="num" id="avgShares">1.2</td><td class="num" id="shareRate">0.47%</td></tr>
-    <tr><td>コメント数</td><td class="num" id="totalComments">8</td><td class="num" id="avgComments">0.1</td><td class="num" id="commentRate">0.03%</td></tr>
-  </tbody>
-</table>
-<div class="table-caption">出典：YouTube Analytics 日次データから集計。</div>
-
-<p><span class="label-insight">インサイト</span> コメント数が90日間でわずか8件（日次0.1件）であることは、視聴者とのインタラクションが非常に少ないことを意味する。教育系チャンネルでは「質問を投げかける」「コメント欄で議論を促す」ことがアルゴリズム上有利に働くため、動画内でのコメント誘導（CTA）を強化すべきである。シェア数108件（日次1.2件）は、コンテンツが口コミされるポテンシャルを示しており、特にX（Twitter）やLINEでの拡散を促す施策が有効である。</p>
-
-<hr>
-
-<!-- ===== 9. GROWTH STRATEGY ===== -->
-<h2>9. 具体的な成長戦略提言</h2>
-
-<p>以下に、データ分析に基づく5つの成長戦略を優先度順に提示する。各施策はチャンネルの現状と目標（登録者1,000名突破・収益化）に照らして設計されている。</p>
-
-<div class="strategy-box">
-  <h4><span class="priority-high">優先度 HIGH</span> 戦略1：関連動画流入の最大化</h4>
-  <p><strong>現状：</strong>関連動画からの流入が1.4%（327回/90日）と壊滅的に低い。</p>
-  <p><strong>施策：</strong></p>
-  <ul>
-    <li><strong>サムネイル改善：</strong>テキスト量を減らし、感情表現のある人物写真＋大文字キーワード1つの構成に統一。CTRの業界平均（4〜5%）を目標とする。</li>
-    <li><strong>タイトル最適化：</strong>最初の28文字（モバイル表示限界）に最重要キーワードを配置。数字や「〇〇選」「完全解説」等のパワーワードを活用。</li>
-    <li><strong>シリーズ化：</strong>「ケース面接実践」「MBB各社の特徴」「コンサル転職ロードマップ」等のシリーズを明示的に設計し、動画間の関連性を高める。</li>
-    <li><strong>終了画面・カードの徹底設定：</strong>全動画に「次に見るべき動画」を設定。関連性の高い動画への誘導を自動化。</li>
-  </ul>
-  <p><strong>期待効果：</strong>関連動画流入を1.4%→10%に改善するだけで、月間+2,000再生の増加が見込める。</p>
-</div>
-
-<div class="strategy-box">
-  <h4><span class="priority-high">優先度 HIGH</span> 戦略2：投稿頻度の安定化（週2本体制）</h4>
-  <p><strong>現状：</strong>2025年11月以降、月2〜3本に投稿頻度が低下。</p>
-  <p><strong>施策：</strong></p>
-  <ul>
-    <li><strong>コンテンツカレンダーの策定：</strong>毎週火曜・金曜に定時投稿するスケジュールを確立。</li>
-    <li><strong>コンテンツの型化：</strong>「ケース面接実践」「業界解説」「キャリア相談」「ショートTips」の4カテゴリをローテーション。</li>
-    <li><strong>バッチ制作：</strong>月初に4〜8本分の撮影をまとめて実施し、編集・公開を分散させる運用体制。</li>
-    <li><strong>ショート動画の量産：</strong>長尺動画の切り出しで週1〜2本のショートを追加投稿。制作コストほぼゼロで露出を増やせる。</li>
-  </ul>
-  <p><strong>期待効果：</strong>月8本投稿を実現することで、アルゴリズム評価の改善と検索インプレッションの増加が期待できる。</p>
-</div>
-
-<div class="strategy-box">
-  <h4><span class="priority-high">優先度 HIGH</span> 戦略3：ショート動画の戦略的活用</h4>
-  <p><strong>現状：</strong>ショート動画は再生数上位に多く入るが、チャンネル全体のショート流入はわずか0.6%。</p>
-  <p><strong>施策：</strong></p>
-  <ul>
-    <li><strong>ショートファネルの設計：</strong>ショート動画の最後に「詳しくは本編で→概要欄リンク」と誘導し、長尺動画への導線を確保。</li>
-    <li><strong>人気テーマのショート化：</strong>「ケース面接5つの失敗パターン」「MBBの年収リアル」等、検索需要のあるテーマを30〜60秒のショートに圧縮。</li>
-    <li><strong>毎日投稿の検討：</strong>ショートは毎日投稿が理想。長尺動画の撮影余りや切り出しで量産体制を構築。</li>
-  </ul>
-  <p><strong>期待効果：</strong>ショート経由の新規リーチ拡大により、登録者の増加ペースを現状の月+33名→月+80〜100名に加速。</p>
-</div>
-
-<div class="strategy-box">
-  <h4><span class="priority-mid">優先度 MID</span> 戦略4：コメント・コミュニティ活性化</h4>
-  <p><strong>現状：</strong>90日間のコメント数がわずか8件。視聴者インタラクションが極めて少ない。</p>
-  <p><strong>施策：</strong></p>
-  <ul>
-    <li><strong>動画内CTA：</strong>「あなたはどう思いますか？コメントで教えてください」等の問いかけを毎回の動画末尾に挿入。</li>
-    <li><strong>コメントピン留め：</strong>投稿直後に自分自身でディスカッション誘発コメントをピン留めする。</li>
-    <li><strong>コミュニティ投稿：</strong>YouTubeのコミュニティタブでアンケートや質問を定期的に投稿し、登録者との接点を維持。</li>
-    <li><strong>コメント返信の徹底：</strong>全コメントに24時間以内に返信する運用ルールを設定。</li>
-  </ul>
-  <p><strong>期待効果：</strong>コメント数の増加はアルゴリズム上のシグナルとして強力であり、関連動画への表示確率を高める。</p>
-</div>
-
-<div class="strategy-box">
-  <h4><span class="priority-mid">優先度 MID</span> 戦略5：外部プラットフォーム連携</h4>
-  <p><strong>現状：</strong>外部URLからの流入が5.1%（1,157回）あり、一定の外部誘導が機能している。</p>
-  <p><strong>施策：</strong></p>
-  <ul>
-    <li><strong>X（Twitter）での発信強化：</strong>コンサル就活・転職に関する日常的なツイートで潜在視聴者にリーチ。動画の要約やハイライトを投稿。</li>
-    <li><strong>noteでの長文コンテンツ：</strong>動画の補足記事やケース面接の解説をnoteで公開し、YouTube動画への導線を設置。SEO効果も期待。</li>
-    <li><strong>Strategists公式サイトとの連携：</strong>サービスサイト上にYouTube動画を埋め込み、相互送客を実現。</li>
-    <li><strong>LINEオープンチャット活用：</strong>コンサル転職志望者のコミュニティを形成し、新動画の告知や限定コンテンツで囲い込み。</li>
-  </ul>
-  <p><strong>期待効果：</strong>外部流入を5%→10%に倍増させることで、月間+1,000再生と質の高い（転職検討中の）視聴者獲得が期待できる。</p>
-</div>
-
-<div class="strategy-box">
-  <h4><span class="priority-mid">優先度 MID</span> 戦略6：再生リストの整備と活用</h4>
-  <p><strong>現状：</strong>再生リスト経由の流入が1.6%（373回）と限定的。</p>
-  <p><strong>施策：</strong></p>
-  <ul>
-    <li><strong>テーマ別再生リスト：</strong>「ケース面接完全対策」「MBB各社の実態」「コンサル転職ロードマップ」等のキュレーション型リストを作成。</li>
-    <li><strong>レベル別再生リスト：</strong>「初心者向け」「中級者向け」「面接直前」等、視聴者のステージに応じた導線設計。</li>
-    <li><strong>概要欄での誘導：</strong>全動画の概要欄に関連する再生リストのリンクを掲載。</li>
-  </ul>
-  <p><strong>期待効果：</strong>再生リストは連続視聴を促進し、視聴時間とセッション継続率を向上させる。アルゴリズム評価の底上げに貢献。</p>
-</div>
-
-<div class="strategy-box">
-  <h4><span class="priority-low">優先度 LOW</span> 戦略7：コラボレーション・ゲスト出演</h4>
-  <p><strong>現状：</strong>チャンネルのコンテンツは主に自社メンバーによる解説が中心。</p>
-  <p><strong>施策：</strong></p>
-  <ul>
-    <li><strong>コンサル業界のインフルエンサーとのコラボ：</strong>登録者1万〜10万人規模のビジネス系YouTuberとの対談・コラボ動画。</li>
-    <li><strong>Strategists卒業生の成功事例：</strong>実際の内定者インタビューをシリーズ化（既に一部実施済み。さらに強化）。</li>
-    <li><strong>現役コンサルタントのゲスト出演：</strong>各ファームの現役社員（匿名OK）による「リアルな一日」「入社して驚いたこと」等のコンテンツ。</li>
-  </ul>
-  <p><strong>期待効果：</strong>コラボ相手のファンベースからの新規視聴者獲得。登録者1,000名突破の加速。</p>
-</div>
-
-<hr>
-
-<!-- ===== 10. ROADMAP ===== -->
-<h2>10. 成長ロードマップ</h2>
-
-<h3>目標設定</h3>
-
-<table>
-  <thead>
-    <tr><th>指標</th><th class="num">現状（2026年3月）</th><th class="num">3ヶ月後目標</th><th class="num">6ヶ月後目標</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>チャンネル登録者数</td><td class="num">624人</td><td class="num">850人</td><td class="num">1,200人</td></tr>
-    <tr><td>月間再生数</td><td class="num">9,006回</td><td class="num">15,000回</td><td class="num">25,000回</td></tr>
-    <tr><td>月間投稿本数</td><td class="num">3本</td><td class="num">8本</td><td class="num">10本</td></tr>
-    <tr><td>関連動画流入比率</td><td class="num">1.4%</td><td class="num">8%</td><td class="num">15%</td></tr>
-    <tr><td>平均エンゲージメント率</td><td class="num">1.7%</td><td class="num">2.5%</td><td class="num">3.5%</td></tr>
-  </tbody>
-</table>
-<div class="table-caption">目標値は戦略施策の実行を前提としたシナリオベースの推定。</div>
-
-<h3>フェーズ別アクションプラン</h3>
-
-<div class="strategy-box">
-  <h4>Phase 1（即時〜1ヶ月）：基盤整備</h4>
-  <ul>
-    <li>全既存動画に終了画面・カードを設定</li>
-    <li>テーマ別再生リストを5つ以上作成</li>
-    <li>サムネイルのA/Bテスト開始（上位20動画）</li>
-    <li>コンテンツカレンダーの策定（週2本ペース）</li>
-    <li>各動画の概要欄を統一フォーマットに改善</li>
-  </ul>
-</div>
-
-<div class="strategy-box">
-  <h4>Phase 2（2〜3ヶ月目）：コンテンツ量産</h4>
-  <ul>
-    <li>週2本（長尺1本＋ショート1本以上）の投稿ペース確立</li>
-    <li>「ケース面接実践」シリーズの定期投稿（月2本）</li>
-    <li>人気動画のリメイク・続編制作</li>
-    <li>X/noteでの発信開始</li>
-    <li>コメントCTAの全動画への導入</li>
-  </ul>
-</div>
-
-<div class="strategy-box">
-  <h4>Phase 3（4〜6ヶ月目）：スケール</h4>
-  <ul>
-    <li>コラボ動画の実施（月1本）</li>
-    <li>ショート動画の毎日投稿体制</li>
-    <li>LINEオープンチャット等のコミュニティ構築</li>
-    <li>収益化申請（登録者1,000名達成時）</li>
-    <li>Strategistsサービスページとの本格連携</li>
-  </ul>
-</div>
-
-<hr>
+<blockquote>
+  <strong>視聴率改善のための推奨施策：</strong> (1) 動画冒頭15秒のフック強化（結論ファーストの構成）、(2) チャプター設定による離脱防止、(3) 長尺動画は8〜12分を目安とし、15分超は分割を検討、(4) 「次の動画」への誘導を動画終盤に組み込む。
+</blockquote>
 
 <!-- ===== FOOTER ===== -->
 <div class="report-footer">
-  <p>本レポートは、YouTube Data API v3およびYouTube Analytics APIから取得したデータに基づいて作成されています。業界平均値・競合データは各種パブリックソース（Tubular Labs, Social Blade, Pew Research Center等）からの参考値であり、正確性を保証するものではありません。</p>
-  <p>作成：Strategists YouTube分析チーム｜2026年3月4日｜Powered by Claude Code</p>
+  <p>本レポートはYouTube Analytics API、YouTube Data API v3、leads_detail.csv、competitors.jsonのデータに基づき自動生成されたものである。</p>
+  <p>レポート生成日：2026年3月4日 &mdash; Strategists YouTube Channel Analytics Report v2</p>
 </div>
 
 </div><!-- /.container -->
 
+<!-- ===== CHART.JS SCRIPTS ===== -->
 <script>
-// ===== DATA =====
-const dailyData = [
-  {day:"2025-12-04",views:215,watchTime:774,avgDuration:245,avgPct:39.72,subsGained:0,subsLost:0,likes:5,shares:1,comments:0},
-  {day:"2025-12-05",views:232,watchTime:700,avgDuration:208,avgPct:36.75,subsGained:3,subsLost:1,likes:2,shares:0,comments:0},
-  {day:"2025-12-06",views:267,watchTime:607,avgDuration:152,avgPct:26.36,subsGained:0,subsLost:1,likes:3,shares:6,comments:0},
-  {day:"2025-12-07",views:277,watchTime:846,avgDuration:207,avgPct:34.26,subsGained:3,subsLost:2,likes:2,shares:1,comments:0},
-  {day:"2025-12-08",views:280,watchTime:676,avgDuration:167,avgPct:32.89,subsGained:1,subsLost:0,likes:0,shares:1,comments:0},
-  {day:"2025-12-09",views:444,watchTime:1134,avgDuration:191,avgPct:36.85,subsGained:2,subsLost:0,likes:6,shares:2,comments:0},
-  {day:"2025-12-10",views:375,watchTime:1022,avgDuration:197,avgPct:34.51,subsGained:3,subsLost:1,likes:12,shares:1,comments:1},
-  {day:"2025-12-11",views:335,watchTime:888,avgDuration:180,avgPct:31.5,subsGained:3,subsLost:1,likes:6,shares:21,comments:0},
-  {day:"2025-12-12",views:234,watchTime:558,avgDuration:169,avgPct:31.22,subsGained:2,subsLost:2,likes:3,shares:0,comments:0},
-  {day:"2025-12-13",views:198,watchTime:556,avgDuration:202,avgPct:35.06,subsGained:4,subsLost:0,likes:2,shares:0,comments:0},
-  {day:"2025-12-14",views:219,watchTime:658,avgDuration:212,avgPct:37.94,subsGained:2,subsLost:0,likes:2,shares:0,comments:0},
-  {day:"2025-12-15",views:240,watchTime:770,avgDuration:213,avgPct:34.65,subsGained:1,subsLost:0,likes:3,shares:3,comments:0},
-  {day:"2025-12-16",views:209,watchTime:518,avgDuration:174,avgPct:31.02,subsGained:4,subsLost:0,likes:2,shares:0,comments:0},
-  {day:"2025-12-17",views:287,watchTime:711,avgDuration:172,avgPct:32.58,subsGained:1,subsLost:0,likes:2,shares:0,comments:1},
-  {day:"2025-12-18",views:282,watchTime:719,avgDuration:183,avgPct:30.97,subsGained:1,subsLost:1,likes:2,shares:1,comments:0},
-  {day:"2025-12-19",views:184,watchTime:378,avgDuration:148,avgPct:26.69,subsGained:1,subsLost:1,likes:5,shares:0,comments:0},
-  {day:"2025-12-20",views:230,watchTime:572,avgDuration:186,avgPct:33.04,subsGained:2,subsLost:1,likes:3,shares:0,comments:0},
-  {day:"2025-12-21",views:236,watchTime:864,avgDuration:257,avgPct:43.87,subsGained:0,subsLost:0,likes:1,shares:0,comments:0},
-  {day:"2025-12-22",views:206,watchTime:596,avgDuration:200,avgPct:37.88,subsGained:5,subsLost:0,likes:5,shares:0,comments:0},
-  {day:"2025-12-23",views:208,watchTime:391,avgDuration:140,avgPct:33.02,subsGained:0,subsLost:0,likes:-1,shares:0,comments:0},
-  {day:"2025-12-24",views:212,watchTime:479,avgDuration:172,avgPct:35.51,subsGained:1,subsLost:0,likes:3,shares:0,comments:0},
-  {day:"2025-12-25",views:172,watchTime:425,avgDuration:174,avgPct:26.45,subsGained:2,subsLost:0,likes:3,shares:0,comments:0},
-  {day:"2025-12-26",views:167,watchTime:328,avgDuration:156,avgPct:32.9,subsGained:1,subsLost:0,likes:0,shares:1,comments:0},
-  {day:"2025-12-27",views:188,watchTime:786,avgDuration:277,avgPct:41.01,subsGained:1,subsLost:0,likes:2,shares:1,comments:0},
-  {day:"2025-12-28",views:285,watchTime:952,avgDuration:222,avgPct:38.23,subsGained:1,subsLost:1,likes:7,shares:2,comments:0},
-  {day:"2025-12-29",views:206,watchTime:604,avgDuration:201,avgPct:36.88,subsGained:1,subsLost:0,likes:3,shares:0,comments:0},
-  {day:"2025-12-30",views:154,watchTime:430,avgDuration:194,avgPct:36.72,subsGained:2,subsLost:0,likes:1,shares:2,comments:0},
-  {day:"2025-12-31",views:111,watchTime:390,avgDuration:238,avgPct:39.95,subsGained:1,subsLost:1,likes:-1,shares:0,comments:0},
-  {day:"2026-01-01",views:159,watchTime:331,avgDuration:155,avgPct:32.03,subsGained:1,subsLost:0,likes:0,shares:0,comments:0},
-  {day:"2026-01-02",views:199,watchTime:569,avgDuration:182,avgPct:31.64,subsGained:2,subsLost:0,likes:2,shares:1,comments:0},
-  {day:"2026-01-03",views:195,watchTime:619,avgDuration:217,avgPct:39.89,subsGained:3,subsLost:1,likes:2,shares:0,comments:0},
-  {day:"2026-01-04",views:172,watchTime:569,avgDuration:224,avgPct:36.86,subsGained:5,subsLost:1,likes:3,shares:2,comments:0},
-  {day:"2026-01-05",views:196,watchTime:528,avgDuration:194,avgPct:37.37,subsGained:2,subsLost:0,likes:3,shares:0,comments:0},
-  {day:"2026-01-06",views:218,watchTime:683,avgDuration:221,avgPct:37.6,subsGained:1,subsLost:1,likes:5,shares:3,comments:0},
-  {day:"2026-01-07",views:292,watchTime:904,avgDuration:216,avgPct:41.57,subsGained:1,subsLost:0,likes:5,shares:2,comments:1},
-  {day:"2026-01-08",views:209,watchTime:512,avgDuration:181,avgPct:41.59,subsGained:0,subsLost:0,likes:1,shares:0,comments:0},
-  {day:"2026-01-09",views:170,watchTime:355,avgDuration:153,avgPct:32.34,subsGained:2,subsLost:1,likes:3,shares:0,comments:0},
-  {day:"2026-01-10",views:314,watchTime:973,avgDuration:208,avgPct:31.73,subsGained:2,subsLost:1,likes:10,shares:4,comments:1},
-  {day:"2026-01-11",views:236,watchTime:497,avgDuration:158,avgPct:30.9,subsGained:1,subsLost:0,likes:4,shares:1,comments:0},
-  {day:"2026-01-12",views:288,watchTime:840,avgDuration:204,avgPct:35.01,subsGained:1,subsLost:1,likes:5,shares:3,comments:0},
-  {day:"2026-01-13",views:343,watchTime:837,avgDuration:187,avgPct:40.12,subsGained:0,subsLost:1,likes:8,shares:0,comments:0},
-  {day:"2026-01-14",views:268,watchTime:722,avgDuration:199,avgPct:41.23,subsGained:1,subsLost:0,likes:4,shares:4,comments:0},
-  {day:"2026-01-15",views:372,watchTime:937,avgDuration:178,avgPct:33.24,subsGained:2,subsLost:1,likes:11,shares:1,comments:1},
-  {day:"2026-01-16",views:248,watchTime:658,avgDuration:188,avgPct:34.97,subsGained:0,subsLost:0,likes:6,shares:2,comments:0},
-  {day:"2026-01-17",views:258,watchTime:753,avgDuration:207,avgPct:39.3,subsGained:1,subsLost:0,likes:8,shares:0,comments:0},
-  {day:"2026-01-18",views:285,watchTime:754,avgDuration:200,avgPct:40.39,subsGained:2,subsLost:0,likes:5,shares:0,comments:0},
-  {day:"2026-01-19",views:277,watchTime:872,avgDuration:212,avgPct:37.83,subsGained:1,subsLost:0,likes:0,shares:1,comments:0},
-  {day:"2026-01-20",views:280,watchTime:702,avgDuration:178,avgPct:37.33,subsGained:5,subsLost:0,likes:5,shares:0,comments:0},
-  {day:"2026-01-21",views:262,watchTime:686,avgDuration:194,avgPct:31.87,subsGained:5,subsLost:1,likes:2,shares:2,comments:0},
-  {day:"2026-01-22",views:227,watchTime:424,avgDuration:141,avgPct:32.83,subsGained:0,subsLost:0,likes:3,shares:2,comments:0},
-  {day:"2026-01-23",views:263,watchTime:461,avgDuration:133,avgPct:27.06,subsGained:0,subsLost:2,likes:1,shares:2,comments:0},
-  {day:"2026-01-24",views:188,watchTime:489,avgDuration:191,avgPct:36.26,subsGained:1,subsLost:0,likes:3,shares:1,comments:0},
-  {day:"2026-01-25",views:189,watchTime:434,avgDuration:168,avgPct:31.71,subsGained:0,subsLost:0,likes:2,shares:2,comments:0},
-  {day:"2026-01-26",views:175,watchTime:416,avgDuration:168,avgPct:30.05,subsGained:2,subsLost:3,likes:3,shares:1,comments:0},
-  {day:"2026-01-27",views:261,watchTime:624,avgDuration:173,avgPct:37.44,subsGained:3,subsLost:0,likes:4,shares:0,comments:0},
-  {day:"2026-01-28",views:205,watchTime:468,avgDuration:165,avgPct:30.56,subsGained:2,subsLost:1,likes:1,shares:1,comments:0},
-  {day:"2026-01-29",views:249,watchTime:459,avgDuration:136,avgPct:28.02,subsGained:2,subsLost:0,likes:1,shares:0,comments:0},
-  {day:"2026-01-30",views:254,watchTime:664,avgDuration:189,avgPct:37.07,subsGained:0,subsLost:0,likes:0,shares:10,comments:0},
-  {day:"2026-01-31",views:219,watchTime:519,avgDuration:177,avgPct:35.08,subsGained:3,subsLost:0,likes:2,shares:0,comments:0},
-  {day:"2026-02-01",views:370,watchTime:869,avgDuration:164,avgPct:32.33,subsGained:1,subsLost:0,likes:5,shares:2,comments:0},
-  {day:"2026-02-02",views:232,watchTime:587,avgDuration:178,avgPct:36.89,subsGained:6,subsLost:1,likes:3,shares:0,comments:0},
-  {day:"2026-02-03",views:168,watchTime:339,avgDuration:149,avgPct:32.42,subsGained:0,subsLost:3,likes:3,shares:1,comments:0},
-  {day:"2026-02-04",views:280,watchTime:558,avgDuration:155,avgPct:38.05,subsGained:1,subsLost:2,likes:1,shares:3,comments:1},
-  {day:"2026-02-05",views:236,watchTime:602,avgDuration:180,avgPct:37.85,subsGained:1,subsLost:1,likes:1,shares:0,comments:0},
-  {day:"2026-02-06",views:244,watchTime:465,avgDuration:152,avgPct:38.13,subsGained:0,subsLost:0,likes:4,shares:1,comments:0},
-  {day:"2026-02-07",views:216,watchTime:455,avgDuration:163,avgPct:33.28,subsGained:2,subsLost:1,likes:3,shares:1,comments:0},
-  {day:"2026-02-08",views:239,watchTime:541,avgDuration:168,avgPct:32.43,subsGained:2,subsLost:0,likes:3,shares:1,comments:0},
-  {day:"2026-02-09",views:252,watchTime:535,avgDuration:160,avgPct:32.25,subsGained:2,subsLost:1,likes:2,shares:1,comments:0},
-  {day:"2026-02-10",views:287,watchTime:689,avgDuration:177,avgPct:38.86,subsGained:0,subsLost:1,likes:1,shares:2,comments:0},
-  {day:"2026-02-11",views:251,watchTime:577,avgDuration:170,avgPct:36.55,subsGained:0,subsLost:0,likes:6,shares:0,comments:0},
-  {day:"2026-02-12",views:248,watchTime:524,avgDuration:165,avgPct:35.81,subsGained:2,subsLost:1,likes:0,shares:0,comments:0},
-  {day:"2026-02-13",views:335,watchTime:519,avgDuration:123,avgPct:32.01,subsGained:1,subsLost:1,likes:6,shares:1,comments:0},
-  {day:"2026-02-14",views:481,watchTime:891,avgDuration:136,avgPct:33.75,subsGained:3,subsLost:3,likes:5,shares:3,comments:0},
-  {day:"2026-02-15",views:430,watchTime:908,avgDuration:164,avgPct:42.93,subsGained:2,subsLost:0,likes:7,shares:4,comments:1},
-  {day:"2026-02-16",views:438,watchTime:881,avgDuration:153,avgPct:40.38,subsGained:3,subsLost:0,likes:5,shares:2,comments:0},
-  {day:"2026-02-17",views:527,watchTime:880,avgDuration:128,avgPct:35.65,subsGained:1,subsLost:0,likes:2,shares:0,comments:0},
-  {day:"2026-02-18",views:337,watchTime:646,avgDuration:144,avgPct:37.38,subsGained:3,subsLost:0,likes:4,shares:1,comments:0},
-  {day:"2026-02-19",views:294,watchTime:653,avgDuration:176,avgPct:44.05,subsGained:0,subsLost:0,likes:3,shares:1,comments:0},
-  {day:"2026-02-20",views:323,watchTime:578,avgDuration:139,avgPct:36.5,subsGained:3,subsLost:1,likes:2,shares:1,comments:0},
-  {day:"2026-02-21",views:238,watchTime:628,avgDuration:190,avgPct:37.85,subsGained:2,subsLost:0,likes:3,shares:0,comments:0},
-  {day:"2026-02-22",views:334,watchTime:739,avgDuration:164,avgPct:34.77,subsGained:1,subsLost:0,likes:5,shares:2,comments:1},
-  {day:"2026-02-23",views:334,watchTime:792,avgDuration:173,avgPct:34.92,subsGained:1,subsLost:1,likes:1,shares:1,comments:0},
-  {day:"2026-02-24",views:354,watchTime:853,avgDuration:181,avgPct:41.93,subsGained:1,subsLost:1,likes:9,shares:0,comments:1},
-  {day:"2026-02-25",views:313,watchTime:656,avgDuration:157,avgPct:34.54,subsGained:2,subsLost:0,likes:2,shares:1,comments:0},
-  {day:"2026-02-26",views:274,watchTime:678,avgDuration:181,avgPct:36.54,subsGained:1,subsLost:0,likes:6,shares:7,comments:0},
-  {day:"2026-02-27",views:324,watchTime:702,avgDuration:156,avgPct:36.22,subsGained:1,subsLost:0,likes:4,shares:0,comments:0},
-  {day:"2026-02-28",views:400,watchTime:825,avgDuration:145,avgPct:25.99,subsGained:4,subsLost:0,likes:1,shares:4,comments:0}
-];
-
-// Traffic source data
-const trafficData = {
-  labels: ['YouTube検索', 'チャンネル登録者', 'チャンネルページ', '外部URL', 'その他', '再生リスト', '関連動画', 'ショート'],
-  values: [14162, 3192, 2323, 1157, 1084, 373, 327, 206],
-  colors: ['#2c3e50', '#34495e', '#5d6d7e', '#7f8c8d', '#95a5a6', '#bdc3c7', '#c23b22', '#e67e22']
-};
-
-// Monthly publishing data
-const monthlyPub = [
-  {month:'2024/12', videos:6, views:8987},
-  {month:'2025/01', videos:4, views:2816},
-  {month:'2025/02', videos:1, views:1102},
-  {month:'2025/03', videos:5, views:4405},
-  {month:'2025/04', videos:9, views:3424},
-  {month:'2025/05', videos:15, views:10146},
-  {month:'2025/06', videos:6, views:3016},
-  {month:'2025/07', videos:6, views:7228},
-  {month:'2025/08', videos:9, views:12267},
-  {month:'2025/09', videos:12, views:9708},
-  {month:'2025/10', videos:6, views:3483},
-  {month:'2025/11', videos:3, views:907},
-  {month:'2025/12', videos:2, views:844},
-  {month:'2026/01', videos:2, views:454},
-  {month:'2026/02', videos:3, views:537}
-];
-
-// ===== Chart.js Global Config =====
 Chart.defaults.font.family = '"Yu Gothic", "YuGothic", sans-serif';
 Chart.defaults.font.size = 12;
 Chart.defaults.color = '#555';
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
 
-// ===== Chart 1: Daily Views =====
-new Chart(document.getElementById('chartDailyViews'), {
-  type: 'line',
+const COLORS = {
+  primary: '#003A70',
+  secondary: '#2e86c1',
+  accent: '#1a6b52',
+  warn: '#c23b22',
+  orange: '#d4880f',
+  gray: '#7f8c8d',
+  lightGray: '#bdc3c7',
+  bg: 'rgba(0,58,112,0.08)'
+};
+
+const months12 = ['3月','4月','5月','6月','7月','8月','9月','10月','11月','12月','1月','2月'];
+const monthsLabel = ['25/03','25/04','25/05','25/06','25/07','25/08','25/09','25/10','25/11','25/12','26/01','26/02'];
+
+// --- Chart 1: Lead Monthly ---
+new Chart(document.getElementById('chartLeadMonthly'), {
+  type: 'bar',
   data: {
-    labels: dailyData.map(d => {
-      const dt = new Date(d.day);
-      return (dt.getMonth()+1) + '/' + dt.getDate();
-    }),
-    datasets: [{
-      label: '日次再生数',
-      data: dailyData.map(d => d.views),
-      borderColor: '#2c3e50',
-      backgroundColor: 'rgba(44,62,80,0.08)',
-      fill: true,
-      tension: 0.3,
-      pointRadius: 1.5,
-      pointHoverRadius: 5,
-      borderWidth: 2
-    }]
+    labels: ['25/04','25/07','25/09','25/10','25/11','25/12','26/01','26/02'],
+    datasets: [
+      {
+        label: 'リード数',
+        data: [1, 2, 2, 3, 3, 4, 1, 2],
+        backgroundColor: COLORS.primary,
+        yAxisID: 'y',
+        order: 2
+      },
+      {
+        label: '売上(万円)',
+        data: [49.7, 14.8, 0, 26.8, 7.8, 37.8, 0, 0],
+        type: 'line',
+        borderColor: COLORS.accent,
+        backgroundColor: 'transparent',
+        pointBackgroundColor: COLORS.accent,
+        pointRadius: 4,
+        borderWidth: 2,
+        yAxisID: 'y1',
+        order: 1
+      }
+    ]
   },
   options: {
     responsive: true,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        callbacks: {
-          title: (items) => dailyData[items[0].dataIndex].day,
-          label: (item) => item.parsed.y + ' 回再生'
-        }
-      }
-    },
+    interaction: { mode: 'index', intersect: false },
     scales: {
-      x: {
-        grid: { display: false },
-        ticks: { maxTicksLimit: 12, font: { size: 10 } }
-      },
-      y: {
-        beginAtZero: true,
-        grid: { color: '#eee' },
-        ticks: { font: { size: 10 } }
-      }
+      y: { beginAtZero: true, title: { display: true, text: 'リード数' } },
+      y1: { beginAtZero: true, position: 'right', title: { display: true, text: '売上(万円)' }, grid: { drawOnChartArea: false } }
     }
   }
 });
 
-// ===== Chart 2: Monthly Comparison =====
-(() => {
-  const months = ['2025年12月', '2026年1月', '2026年2月'];
-  const dec = dailyData.filter(d => d.day.startsWith('2025-12'));
-  const jan = dailyData.filter(d => d.day.startsWith('2026-01'));
-  const feb = dailyData.filter(d => d.day.startsWith('2026-02'));
-
-  const sumViews = arr => arr.reduce((s, d) => s + d.views, 0);
-  const sumWatch = arr => arr.reduce((s, d) => s + d.watchTime, 0);
-  const avgPct = arr => arr.reduce((s, d) => s + d.avgPct, 0) / arr.length;
-
-  new Chart(document.getElementById('chartMonthlyComparison'), {
-    type: 'bar',
-    data: {
-      labels: months,
-      datasets: [
-        {
-          label: '再生数',
-          data: [sumViews(dec), sumViews(jan), sumViews(feb)],
-          backgroundColor: '#2c3e50',
-          yAxisID: 'y'
-        },
-        {
-          label: '視聴時間(分)',
-          data: [sumWatch(dec), sumWatch(jan), sumWatch(feb)],
-          backgroundColor: '#7f8c8d',
-          yAxisID: 'y'
-        },
-        {
-          label: '平均視聴率(%)',
-          data: [avgPct(dec).toFixed(1), avgPct(jan).toFixed(1), avgPct(feb).toFixed(1)],
-          type: 'line',
-          borderColor: '#c23b22',
-          backgroundColor: '#c23b22',
-          pointRadius: 5,
-          pointHoverRadius: 7,
-          borderWidth: 2,
-          yAxisID: 'y1'
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 16 } }
+// --- Chart 2: Monthly Views ---
+new Chart(document.getElementById('chartMonthlyViews'), {
+  type: 'bar',
+  data: {
+    labels: monthsLabel,
+    datasets: [
+      {
+        label: '再生数',
+        data: [1550,2898,3209,3446,4877,5028,6941,8243,8995,7378,7471,8759],
+        backgroundColor: COLORS.primary,
+        yAxisID: 'y',
+        order: 2
       },
-      scales: {
-        x: { grid: { display: false } },
-        y: {
-          beginAtZero: true,
-          position: 'left',
-          grid: { color: '#eee' },
-          title: { display: true, text: '回数 / 分', font: { size: 10 } }
-        },
-        y1: {
-          beginAtZero: true,
-          max: 50,
-          position: 'right',
-          grid: { display: false },
-          title: { display: true, text: '視聴率 (%)', font: { size: 10 } }
-        }
+      {
+        label: '視聴時間(時間)',
+        data: [88,62,113,136,229,259,316,381,417,343,321,310],
+        type: 'line',
+        borderColor: COLORS.orange,
+        backgroundColor: 'transparent',
+        pointBackgroundColor: COLORS.orange,
+        pointRadius: 3,
+        borderWidth: 2,
+        yAxisID: 'y1',
+        order: 1
       }
+    ]
+  },
+  options: {
+    responsive: true,
+    interaction: { mode: 'index', intersect: false },
+    scales: {
+      y: { beginAtZero: true, title: { display: true, text: '再生数' } },
+      y1: { beginAtZero: true, position: 'right', title: { display: true, text: '視聴時間(時間)' }, grid: { drawOnChartArea: false } }
     }
-  });
-})();
+  }
+});
 
-// ===== Chart 3: Traffic Source =====
+// --- Chart 3: Monthly Subscribers ---
+new Chart(document.getElementById('chartMonthlySubs'), {
+  type: 'bar',
+  data: {
+    labels: monthsLabel,
+    datasets: [
+      {
+        label: '獲得',
+        data: [34,26,36,44,66,50,72,55,74,53,51,46],
+        backgroundColor: COLORS.accent
+      },
+      {
+        label: '離脱',
+        data: [-1,-3,-4,-5,-7,-12,-3,-8,-9,-14,-15,-18],
+        backgroundColor: COLORS.warn
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      x: { stacked: true },
+      y: { stacked: true, title: { display: true, text: '登録者数' } }
+    }
+  }
+});
+
+// --- Chart 4: Traffic Source ---
 new Chart(document.getElementById('chartTrafficSource'), {
   type: 'doughnut',
   data: {
-    labels: trafficData.labels,
+    labels: ['YouTube検索','チャンネル登録者','チャンネルページ','外部URL','再生リスト','関連動画','ショート','その他'],
     datasets: [{
-      data: trafficData.values,
-      backgroundColor: trafficData.colors,
-      borderWidth: 1,
-      borderColor: '#fff'
+      data: [14162, 3192, 2323, 1157, 373, 327, 143, 1206],
+      backgroundColor: [
+        COLORS.primary, COLORS.secondary, COLORS.accent, COLORS.orange,
+        COLORS.gray, COLORS.warn, '#8e44ad', COLORS.lightGray
+      ]
     }]
   },
   options: {
     responsive: true,
     plugins: {
-      legend: {
-        position: 'bottom',
-        labels: { font: { size: 11 }, padding: 12 }
-      },
-      tooltip: {
-        callbacks: {
-          label: (item) => {
-            const total = trafficData.values.reduce((a, b) => a + b, 0);
-            const pct = ((item.parsed / total) * 100).toFixed(1);
-            return item.label + ': ' + item.parsed.toLocaleString() + '回 (' + pct + '%)';
-          }
-        }
-      }
+      legend: { position: 'right' }
     }
   }
 });
 
-// ===== Chart 4: Publishing Frequency =====
-new Chart(document.getElementById('chartPublishing'), {
+// --- Chart 5: Competitor Subscribers ---
+new Chart(document.getElementById('chartCompSubs'), {
   type: 'bar',
   data: {
-    labels: monthlyPub.map(m => m.month),
+    labels: ['Strategists','コンサル転職ch','ケース面接.com','コンサルへ行こう!','外資就活ch'],
+    datasets: [{
+      label: '登録者数',
+      data: [624, 9840, 1450, 1930, 8240],
+      backgroundColor: [COLORS.primary, COLORS.gray, COLORS.gray, COLORS.gray, COLORS.gray]
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { beginAtZero: true, title: { display: true, text: '登録者数' } }
+    }
+  }
+});
+
+// --- Chart 6: Competitor Efficiency ---
+new Chart(document.getElementById('chartCompEfficiency'), {
+  type: 'bar',
+  data: {
+    labels: ['Strategists','コンサル転職ch','ケース面接.com','コンサルへ行こう!','外資就活ch'],
+    datasets: [{
+      label: '再生数/動画本数',
+      data: [777, 4833, 978, 4249, 3189],
+      backgroundColor: [COLORS.primary, COLORS.gray, COLORS.gray, COLORS.gray, COLORS.gray]
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { beginAtZero: true, title: { display: true, text: '再生数/本' } }
+    }
+  }
+});
+
+// --- Chart 7: View Rate & Duration ---
+new Chart(document.getElementById('chartViewRate'), {
+  type: 'line',
+  data: {
+    labels: monthsLabel,
     datasets: [
       {
-        label: '投稿本数',
-        data: monthlyPub.map(m => m.videos),
-        backgroundColor: '#2c3e50',
+        label: '平均視聴率(%)',
+        data: [37.27, 30.71, 34.67, 32.06, 36.33, 39.83, 36.58, 38.26, 34.04, 34.94, 35.27, 35.79],
+        borderColor: COLORS.primary,
+        backgroundColor: COLORS.bg,
+        fill: true,
+        pointRadius: 4,
+        pointBackgroundColor: COLORS.primary,
+        borderWidth: 2,
         yAxisID: 'y'
       },
       {
-        label: '総再生数',
-        data: monthlyPub.map(m => m.views),
-        type: 'line',
-        borderColor: '#c23b22',
-        backgroundColor: '#c23b22',
+        label: '平均視聴時間(秒)',
+        data: [234, 137, 174, 172, 198, 214, 192, 195, 192, 196, 185, 158],
+        borderColor: COLORS.orange,
+        backgroundColor: 'transparent',
         pointRadius: 4,
-        pointHoverRadius: 6,
+        pointBackgroundColor: COLORS.orange,
         borderWidth: 2,
+        borderDash: [5, 3],
         yAxisID: 'y1'
       }
     ]
   },
   options: {
     responsive: true,
-    plugins: {
-      legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 16 } }
-    },
+    interaction: { mode: 'index', intersect: false },
     scales: {
-      x: {
-        grid: { display: false },
-        ticks: { font: { size: 10 }, maxRotation: 45 }
-      },
-      y: {
-        beginAtZero: true,
-        position: 'left',
-        grid: { color: '#eee' },
-        title: { display: true, text: '投稿本数', font: { size: 10 } }
-      },
-      y1: {
-        beginAtZero: true,
-        position: 'right',
-        grid: { display: false },
-        title: { display: true, text: '総再生数', font: { size: 10 } }
-      }
+      y: { min: 25, max: 45, title: { display: true, text: '視聴率(%)' } },
+      y1: { min: 100, max: 260, position: 'right', title: { display: true, text: '視聴時間(秒)' }, grid: { drawOnChartArea: false } }
     }
   }
 });
-
-// ===== Chart 5: Daily Retention =====
-new Chart(document.getElementById('chartRetention'), {
-  type: 'line',
-  data: {
-    labels: dailyData.map(d => {
-      const dt = new Date(d.day);
-      return (dt.getMonth()+1) + '/' + dt.getDate();
-    }),
-    datasets: [
-      {
-        label: '平均視聴率 (%)',
-        data: dailyData.map(d => d.avgPct),
-        borderColor: '#003A70',
-        backgroundColor: 'rgba(0,58,112,0.06)',
-        fill: true,
-        tension: 0.3,
-        pointRadius: 1.5,
-        borderWidth: 2
-      },
-      {
-        label: '平均35.3%ライン',
-        data: dailyData.map(() => 35.3),
-        borderColor: '#c23b22',
-        borderDash: [6, 4],
-        borderWidth: 1.5,
-        pointRadius: 0,
-        fill: false
-      }
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 16 } },
-      tooltip: {
-        callbacks: {
-          title: (items) => dailyData[items[0].dataIndex].day,
-          label: (item) => item.dataset.label + ': ' + item.parsed.y.toFixed(1) + '%'
-        }
-      }
-    },
-    scales: {
-      x: {
-        grid: { display: false },
-        ticks: { maxTicksLimit: 12, font: { size: 10 } }
-      },
-      y: {
-        min: 20,
-        max: 50,
-        grid: { color: '#eee' },
-        ticks: { callback: v => v + '%', font: { size: 10 } }
-      }
-    }
-  }
-});
-
-// ===== Chart 6: Benchmark Radar =====
-new Chart(document.getElementById('chartBenchmark'), {
-  type: 'radar',
-  data: {
-    labels: ['検索流入', 'エンゲージメント率', '視聴率', '関連動画流入', 'いいね率', '投稿頻度'],
-    datasets: [
-      {
-        label: '本チャンネル',
-        data: [95, 35, 60, 5, 30, 25],
-        borderColor: '#2c3e50',
-        backgroundColor: 'rgba(44,62,80,0.15)',
-        borderWidth: 2,
-        pointRadius: 4
-      },
-      {
-        label: 'YouTube教育系平均',
-        data: [50, 60, 55, 50, 55, 60],
-        borderColor: '#c23b22',
-        backgroundColor: 'rgba(194,59,34,0.08)',
-        borderWidth: 2,
-        borderDash: [5, 3],
-        pointRadius: 4
-      }
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 16 } }
-    },
-    scales: {
-      r: {
-        beginAtZero: true,
-        max: 100,
-        ticks: { stepSize: 20, font: { size: 9 }, backdropColor: 'transparent' },
-        pointLabels: { font: { size: 11, weight: '600' } },
-        grid: { color: '#ddd' },
-        angleLines: { color: '#ddd' }
-      }
-    }
-  }
-});
-
-// ===== Chart 7: Engagement =====
-new Chart(document.getElementById('chartEngagement'), {
-  type: 'bar',
-  data: {
-    labels: dailyData.map(d => {
-      const dt = new Date(d.day);
-      return (dt.getMonth()+1) + '/' + dt.getDate();
-    }),
-    datasets: [
-      {
-        label: 'いいね',
-        data: dailyData.map(d => Math.max(0, d.likes)),
-        backgroundColor: '#2c3e50',
-        stack: 'engagement'
-      },
-      {
-        label: 'シェア',
-        data: dailyData.map(d => d.shares),
-        backgroundColor: '#7f8c8d',
-        stack: 'engagement'
-      },
-      {
-        label: 'コメント',
-        data: dailyData.map(d => d.comments),
-        backgroundColor: '#c23b22',
-        stack: 'engagement'
-      }
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 16 } },
-      tooltip: {
-        callbacks: {
-          title: (items) => dailyData[items[0].dataIndex].day
-        }
-      }
-    },
-    scales: {
-      x: {
-        grid: { display: false },
-        ticks: { maxTicksLimit: 12, font: { size: 10 } },
-        stacked: true
-      },
-      y: {
-        beginAtZero: true,
-        stacked: true,
-        grid: { color: '#eee' },
-        ticks: { font: { size: 10 } }
-      }
-    }
-  }
-});
-
-// ===== Compute engagement totals =====
-(() => {
-  const totalLikes = dailyData.reduce((s, d) => s + Math.max(0, d.likes), 0);
-  const totalShares = dailyData.reduce((s, d) => s + d.shares, 0);
-  const totalComments = dailyData.reduce((s, d) => s + d.comments, 0);
-  const totalViews = dailyData.reduce((s, d) => s + d.views, 0);
-  const days = dailyData.length;
-
-  document.getElementById('totalLikes').textContent = totalLikes.toLocaleString();
-  document.getElementById('totalShares').textContent = totalShares.toLocaleString();
-  document.getElementById('totalComments').textContent = totalComments.toLocaleString();
-  document.getElementById('avgLikes').textContent = (totalLikes / days).toFixed(1);
-  document.getElementById('avgShares').textContent = (totalShares / days).toFixed(1);
-  document.getElementById('avgComments').textContent = (totalComments / days).toFixed(1);
-  document.getElementById('likeRate').textContent = ((totalLikes / totalViews) * 100).toFixed(2) + '%';
-  document.getElementById('shareRate').textContent = ((totalShares / totalViews) * 100).toFixed(2) + '%';
-  document.getElementById('commentRate').textContent = ((totalComments / totalViews) * 100).toFixed(2) + '%';
-})();
 </script>
 
 </body>
